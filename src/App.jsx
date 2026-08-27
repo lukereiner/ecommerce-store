@@ -4,6 +4,8 @@ import './App.css'
 import Navbar from './components/home/Navbar';
 import HomeHeader from './components/home/HomeHeader';
 import FeaturedItems from './components/home/FeaturedItems';
+import RecentlyAddedItems from './components/home/RecentlyAddedItems';
+import AboutUs from './components/home/AboutUs';
 
 export default function App() {
   return (
@@ -11,6 +13,8 @@ export default function App() {
         <Navbar />
         <HomeHeader />
         <FeaturedItems />
+        <RecentlyAddedItems />
+        <AboutUs />
 
     </div>
   );

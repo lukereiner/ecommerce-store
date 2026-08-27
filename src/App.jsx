@@ -1,20 +1,16 @@
 import { useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
+import './App.css'
 import Navbar from './components/home/Navbar';
 import HomeHeader from './components/home/HomeHeader';
-import './App.css'
+import FeaturedItems from './components/home/FeaturedItems';
 
 export default function App() {
   return (
     <div className="">
-
-      <div>
         <Navbar />
-      </div>
-
-      <div>
         <HomeHeader />
-      </div>
+        <FeaturedItems />
 
     </div>
   );

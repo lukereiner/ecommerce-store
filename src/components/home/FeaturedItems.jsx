@@ -1,0 +1,27 @@
+import React from "react";
+
+const FeaturedItems = () => {
+  const items = [
+    { id: 1, name: "Apple" },
+    { id: 2, name: "Orange" },
+    { id: 3, name: "Cherry" },
+  ];
+
+  return (
+    <>
+      <div id="main" className="flex flex-col items-center justify-center w-full pt-4">
+        <div id="heading" className="text-xl font-bold mb-4">Featured Items</div>
+
+        <div id="items">
+          <ul className="flex flex-row gap-4">
+            {items.map((item) => (
+              <li key={item.id}>{item.name}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default FeaturedItems;

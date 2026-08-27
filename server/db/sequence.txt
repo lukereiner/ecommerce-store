@@ -1,0 +1,8 @@
+Build out api endpoints: get, put, post, delete for each tables
+
+Lets start with USERS:
+Simple GET route to grab data from Postgres
+- using PG
+
+INSERT INTO orders (created, modified, total, status, userId)
+VALUES ('2025-11-26', '2025-12-27', 299.99, 'returned', 1);

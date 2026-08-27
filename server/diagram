@@ -1,0 +1,51 @@
+Table user {
+  id in pk
+  password varchar
+  email varchar
+  firstName text(50)
+  lastName text(50)
+  created date
+  modified date
+}
+
+Table order {
+  id int pk
+  created date
+  modified date
+  total money
+  status text(20)
+  userId int [ref: > user.id]
+}
+
+Table product {
+  id int pk
+  name varchar(255)
+  price money
+  description varchar
+  created date
+  modified date
+}
+
+Table cart {
+  id int pk
+  created date
+  modified date
+}
+
+Table orderItem {
+  id int pk
+  quantity int
+  created date
+  modified date
+  price money
+  orderId int [ref: > order.id]
+  productId int [ref: > product.id]
+}
+
+Table cartItem {
+  id int pk
+  created date
+  modified date
+  productId int [ref: > product.id]
+  cartId int [ref: > cart.id]
+}

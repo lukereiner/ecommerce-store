@@ -1,0 +1,5 @@
+CREATE TABLE carts (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    created DATE,
+    modified DATE
+);

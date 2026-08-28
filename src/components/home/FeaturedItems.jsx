@@ -10,7 +10,7 @@ const FeaturedItems = () => {
   return (
     <>
       <div id="main" className="flex flex-col items-center justify-center w-full pt-4">
-        <div id="heading" className="text-xl font-bold mb-4">Featured Items</div>
+        <div id="heading" className="text-3xl font-bold mb-4">Featured Items</div>
 
         <div id="items">
           <ul className="flex flex-row gap-4">

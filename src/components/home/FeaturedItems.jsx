@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { formatPrice } from "../../utils/formatPrice";
 
 const FeaturedItems = () => {
 
@@ -15,7 +16,6 @@ const FeaturedItems = () => {
           id: product.id,
           name: product.name,
           price: product.price,
-          description: product.description,
         }));
 
         const shuffled = [...adjustedProducts].sort(() => 0.5 - Math.random());
@@ -50,7 +50,7 @@ const FeaturedItems = () => {
             {featuredProducts.map((product) => (
               <li key={product.id} className="border p-4 rounded shadow-sm content-center">
                 <p className="font-bold">{product.name}</p>
-                <p>${product.price}</p>
+                <p>${formatPrice(product.price)}</p>
               </li>
             ))}
           </ul>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { formatPrice } from '../../utils/formatPrice'
 
 const ProductModal = ({product}) => {
 
@@ -12,7 +13,7 @@ const ProductModal = ({product}) => {
             <div>{product.description}</div>
 
             <div>
-                ${product.price}
+                ${formatPrice(product.price)}
             </div>
 
             <button className='border border-2 bg-blue-200 px-4 py-1 rounded hover:bg-blue-300'>Add to Cart</button>

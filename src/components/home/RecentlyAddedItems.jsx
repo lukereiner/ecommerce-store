@@ -1,8 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const RecentlyAddedItems = () => {
-
-    const items = [
+  const items = [
     { id: 1, name: "Corn" },
     { id: 2, name: "Berries" },
     { id: 3, name: "Peanuts" },
@@ -10,8 +9,13 @@ const RecentlyAddedItems = () => {
 
   return (
     <>
-    <div id="main" className="flex flex-col items-center justify-center w-full pt-4">
-        <div id="heading" className="text-3xl font-bold mb-4">Recently Added Items</div>
+      <div
+        id="main"
+        className="flex flex-col items-center justify-center w-full py-4"
+      >
+        <div id="heading" className="text-3xl font-bold mb-4">
+          Recently Added Items
+        </div>
 
         <div id="items">
           <ul className="flex flex-row gap-4">
@@ -22,7 +26,7 @@ const RecentlyAddedItems = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default RecentlyAddedItems
+export default RecentlyAddedItems;

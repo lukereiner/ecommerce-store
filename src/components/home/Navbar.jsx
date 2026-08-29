@@ -8,7 +8,7 @@ const Navbar = () => {
       <nav className="flex items-center justify-between p-4 bg-gray-200 shadow text-black">
         <div className="w-1/3 flex justify-start">
           <Link to="/" className="text-xl font-bold">
-            General Store
+            The General Store
           </Link>
         </div>
 
@@ -16,8 +16,8 @@ const Navbar = () => {
           <Link to="/" className="hover:text-blue-600">
             Home
           </Link>
-          <Link to="" className="hover:text-blue-600">
-            About
+          <Link to="/login" className="hover:text-blue-600">
+            Members
           </Link>
           <Link to="/store" className="hover:text-blue-600">
             Store

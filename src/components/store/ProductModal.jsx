@@ -7,7 +7,7 @@ const ProductModal = ({ product }) => {
       id="main"
       className="flex flex-col justify-between items-center border p-4 rounded-lg shadow-sm w-64 h-full text-center bg-white"
     >
-      {/* Top Section: Fixed-height Image Box */}
+
       <div className="w-full h-48 flex items-center justify-center overflow-hidden mb-3">
         <img
           className="max-h-full max-w-full object-contain"
@@ -16,7 +16,6 @@ const ProductModal = ({ product }) => {
         />
       </div>
 
-      {/* Middle Section: Text Content with Flex Growth */}
       <div className="flex flex-col flex-grow justify-start items-center w-full mb-3">
         <h3 className="font-bold text-gray-900 line-clamp-1 mb-1">
           {product.name}
@@ -26,7 +25,6 @@ const ProductModal = ({ product }) => {
         </p>
       </div>
 
-      {/* Bottom Section: Price & Action Button (Anchored to Bottom) */}
       <div className="w-full mt-auto flex flex-col items-center gap-2">
         <div className="font-semibold text-lg">
           ${formatPrice(product.price)}

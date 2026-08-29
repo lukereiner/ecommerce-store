@@ -11,7 +11,7 @@ const AboutUs = () => {
 
         <section className="flex w-1/2 justify-center items-center flex-col py-2">
           <div className="px-8 text-center">
-            We are a general store in your area <span className="font-bold">since 1979</span>. We carry all kinds of items you may need for your life, such as food, tools, and toiletries. Check out our catalog of items!
+            We are a general store in your area <span className="font-bold">since 1979</span>. We carry all kinds of items you may need for your life, such as video game consoles, computers, and automobiles. Check out our catalog of items!
           </div>
           <Link to="/store">
             <button className="cursor-pointer px-4 py-1 border-2 border-blue-500 text-blue-500 rounded hover:bg-blue-50 mt-4">

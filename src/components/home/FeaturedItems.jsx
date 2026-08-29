@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { formatPrice } from "../../utils/formatPrice";
+import { Link } from "react-router-dom";
 
 const FeaturedItems = () => {
-
   const [featuredProducts, setFeaturedProducts] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,10 +19,9 @@ const FeaturedItems = () => {
         }));
 
         const shuffled = [...adjustedProducts].sort(() => 0.5 - Math.random());
-        const selectedFeatured = shuffled.slice(0,3);
+        const selectedFeatured = shuffled.slice(0, 3);
 
         setFeaturedProducts(selectedFeatured);
-
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -48,10 +47,15 @@ const FeaturedItems = () => {
         <div id="items">
           <ul className="flex flex-row gap-4 text-center">
             {featuredProducts.map((product) => (
-              <li key={product.id} className="border p-4 rounded shadow-sm content-center">
-                <p className="font-bold">{product.name}</p>
-                <p>${formatPrice(product.price)}</p>
-              </li>
+              <Link to="/store">
+                <li
+                  key={product.id}
+                  className="border p-4 rounded shadow-sm content-center"
+                >
+                  <p className="font-bold">{product.name}</p>
+                  <p>${formatPrice(product.price)}</p>
+                </li>
+              </Link>
             ))}
           </ul>
         </div>

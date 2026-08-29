@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductModal from "../components/store/ProductModal";
+import Navbar from "../components/home/Navbar";
 
 const Store = () => {
   const [products, setProducts] = useState(null);
@@ -35,11 +36,13 @@ const Store = () => {
   return (
     <>
       <div>
+        <Navbar />
         <section>
-          <h1 className="text-2xl font-bold text-center my-4">Store Main</h1>
+          
+          <h1 className="text-2xl font-bold text-center my-4">Store Catalog</h1>
         </section>
 
-        <section className="flex flex-wrap gap-4 justify-center">
+        <section className="flex flex-wrap gap-4 justify-center mb-8">
           {products.map((product) => (
             <ProductModal key={product.id} product={product} />
           ))}

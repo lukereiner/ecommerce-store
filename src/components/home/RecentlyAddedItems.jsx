@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { formatPrice } from "../../utils/formatPrice";
+import { Link } from "react-router-dom";
 
 const RecentlyAddedItems = () => {
   const items = [
@@ -16,7 +17,7 @@ const RecentlyAddedItems = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("/api/products");
-        
+
         const adjustedProducts = response.data.map((product) => ({
           id: product.id,
           name: product.name,
@@ -24,11 +25,13 @@ const RecentlyAddedItems = () => {
           created: product.created,
         }));
 
-        const createdSort = [...adjustedProducts].sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
-        const selectedRecent = createdSort.slice(0,3);
+        const createdSort = [...adjustedProducts].sort(
+          (a, b) =>
+            new Date(b.created).getTime() - new Date(a.created).getTime(),
+        );
+        const selectedRecent = createdSort.slice(0, 3);
 
         setRecentProducts(selectedRecent);
-
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -54,10 +57,15 @@ const RecentlyAddedItems = () => {
         <div id="items">
           <ul className="flex flex-row gap-4 text-center">
             {recentProducts.map((product) => (
-              <li key={product.id} className="border p-4 rounded shadow-sm content-center">
-                <p className="font-bold">{product.name}</p>
-                <p>${formatPrice(product.price)}</p>
-              </li>
+              <Link to="/store">
+                <li
+                  key={product.id}
+                  className="border p-4 rounded shadow-sm content-center"
+                >
+                  <p className="font-bold">{product.name}</p>
+                  <p>${formatPrice(product.price)}</p>
+                </li>
+              </Link>
             ))}
           </ul>
         </div>

@@ -19,7 +19,6 @@ const Store = () => {
         }));
 
         setProducts(adjustedProducts);
-        //console.log('store page', adjustedProducts)
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {

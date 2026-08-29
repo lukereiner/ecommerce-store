@@ -9,10 +9,11 @@ const Store = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/api/products");
+        const response = await axios.get("/api/products");        
 
         const adjustedProducts = response.data.map((product) => ({
           id: product.id,
+          image_url: product.image_url,
           name: product.name,
           price: product.price,
           description: product.description,

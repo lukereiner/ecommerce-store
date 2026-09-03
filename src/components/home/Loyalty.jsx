@@ -7,7 +7,7 @@ const Loyalty = () => {
       <div id="main" className="flex my-8">
         <section className="flex w-1/2 justify-center items-center flex-col py-2">
           <div className="px-8 text-center">When you sign up, you'll receive <span className="font-bold">discounts</span> and build <span className="font-bold">points</span> to redeem for gift cards. Also, we can contact you regarding restocked or backordered items.</div>
-          <Link to="/login">
+          <Link to="/cart">
             <button className="cursor-pointer px-4 py-1 border-2 border-blue-500 text-blue-500 rounded hover:bg-blue-50 mt-4">
               Login
             </button>

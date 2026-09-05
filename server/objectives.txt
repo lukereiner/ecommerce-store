@@ -31,10 +31,10 @@ INSERT INTO users (password, email, firstname, lastname)
 VALUES ('mypassword', 'crhoades@gmail.com', 'Chuck', 'Rhoades'), ('hah02f0jiv', 'calsurf@yahoo.com', 'Cal', 'Jones'), ('.,kmi1irj94!@=./e', 'jimtatro@hotmail.com', 'Jimmy', 'Tatro'), ('19jncn!djJIjdLD-[f]\', 'geraldgreen@gmail.com', 'Gerald', 'Green');
 
 INSERT INTO cart_items (cartid, productid, qty)
-VALUES (4, 5, 2), (4, 3, 12), (4, 1, 11);
+VALUES (14, 8, 1), (14, 9, 1), (14, 11, 3);
 
 INSERT INTO carts (userid)
-VALUES (4);
+VALUES (19);
 
 INSERT INTO orders (total, status, userid)
 VALUES (29.99, 'completed', 3);

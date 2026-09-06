@@ -1,3 +1,6 @@
+import React from "react";
+import { formatPrice } from "../../utils/formatPrice";
+
 const CartSummary = ({ subtotal }) => {
   const tax = subtotal * 0.07;
   const total = subtotal + tax;
@@ -44,3 +47,5 @@ const CartSummary = ({ subtotal }) => {
     </div>
   );
 };
+
+export default CartSummary;

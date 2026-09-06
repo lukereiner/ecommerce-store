@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import CartSummary from "../components/cart/CartSummary";
 import CartItems from "../components/cart/CartItems";
+import Navbar from "../components/home/Navbar";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -110,13 +111,12 @@ const Cart = () => {
 
   return (
     <>
-      <section>
-        Cart page! You are logged in using the protected route. If you aren't
-        logged in, you shouldn't be seeing this!
-      </section>
+    <section>
+      <Navbar />
+    </section>
 
-      <section>
-        <h1 className="font-bold text-3xl underline decoration-solid">
+      <section className="flex justify-center mt-4">
+        <h1 className="font-bold text-3xl">
           {user.firstname}'s Cart
         </h1>
       </section>

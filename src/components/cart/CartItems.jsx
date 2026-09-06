@@ -1,13 +1,14 @@
 import React from "react";
 import { formatPrice } from "../../utils/formatPrice";
 
-const CartItems = ({ item, product }) => {
+const CartItems = ({ item, product, onUpdateQty, onDeleteItem }) => {
   return (
     <div className="flex items-center justify-between border-b py-4 gap-4 w-full bg-white">
       {/* 1. DELETE BUTTON */}
-      <button 
+      <button
         className="text-gray-400 hover:text-gray-600 font-bold px-2 py-1 text-sm transition-colors flex-shrink-0"
         title="Remove item"
+        onClick={() => onDeleteItem(item.id)}
       >
         ✕
       </button>
@@ -30,9 +31,20 @@ const CartItems = ({ item, product }) => {
 
       {/* 4. QUANTITY CONTROLLER (Locked width & position) */}
       <div className="flex items-center border rounded bg-gray-50 flex-shrink-0">
-        <button className="px-2 py-0.5 text-sm hover:bg-gray-200 text-gray-600">-</button>
+        <button
+          className="px-2 py-0.5 text-sm hover:bg-gray-200 text-gray-600"
+          onClick={() => onUpdateQty(item.id, item.qty - 1)}
+          disabled={item.qty <= 1}
+        >
+          -
+        </button>
         <span className="px-1 py-0.5 text-sm font-medium">{item.qty}</span>
-        <button className="px-2 py-0.5 text-sm hover:bg-gray-200 text-gray-600">+</button>
+        <button
+          className="px-2 py-0.5 text-sm hover:bg-gray-200 text-gray-600"
+          onClick={() => onUpdateQty(item.id, item.qty + 1)}
+        >
+          +
+        </button>
       </div>
 
       {/* 5. PRICE CALCULATION (Fixed width locks layout alignment) */}

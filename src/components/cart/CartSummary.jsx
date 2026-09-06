@@ -1,12 +1,15 @@
 import React from "react";
+import { formatPrice } from "../../utils/formatPrice";
 
-const CartSummary = () => {
-  const calculateItemSubtotal = (quantity, price) => {
-    const subTotal = price * quantity;
-    return formatPrice(subTotal);
-  };
+const CartSummary = ({ subtotal }) => {
 
-  return <div>CartSummary</div>;
+    
+
+  return (
+    <>
+      <div>Here is the subtotal prop: ${formatPrice(subtotal)}</div>
+    </>
+  );
 };
 
 export default CartSummary;

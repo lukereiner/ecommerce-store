@@ -39,7 +39,7 @@ module.exports = class CartItemsModel {
     try {
       const statement = `
             SELECT 
-                ci.qty, ci.productid,
+                ci.id, ci.qty, ci.productid,
                 p.name, p.price, p.description
             FROM cart_items ci
             INNER JOIN products p ON ci.productid = p.id

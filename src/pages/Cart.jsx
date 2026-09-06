@@ -12,6 +12,50 @@ const Cart = () => {
 
   const { user } = useAuth();
 
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.qty * Number(item.price),
+    0,
+  );
+
+  const handleDeleteItem = async (cartItemId) => {
+    const previousItems = [...cartItems];
+
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item.id !== cartItemId),
+    );
+
+    try {
+      await axios.delete(`/api/carts/user/${user.id}/items/${cartItemId}`);
+    } catch (error) {
+      console.error("Failed to delete item in cart:", error);
+      // revert state if backend request fails
+      setCartItems(previousItems);
+    }
+  };
+
+  const handleUpdateQty = async (cartItemId, newQty) => {
+    if (newQty < 1) return; // do not drop qty below 1
+
+    // Store previous state in case API call fails
+    const previousItems = [...cartItems];
+
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === cartItemId ? { ...item, qty: newQty } : item,
+      ),
+    );
+
+    try {
+      await axios.patch(`/api/carts/user/${user.id}/items/${cartItemId}`, {
+        qty: newQty,
+      });
+    } catch (error) {
+      console.error("Failed to update cart quantity:", error);
+      // revert state if backend request fails
+      setCartItems(previousItems);
+    }
+  };
+
   // Fetch products for image url
   useEffect(() => {
     const fetchProducts = async () => {
@@ -45,6 +89,7 @@ const Cart = () => {
         const responseItems = response.data.items;
 
         const adjustedItems = responseItems.map((item) => ({
+          id: item.id,
           name: item.name,
           price: item.price,
           description: item.description,
@@ -83,9 +128,11 @@ const Cart = () => {
 
           return (
             <CartItems
-              key={item.productid}
+              key={item.id}
               item={item}
               product={matchedProduct}
+              onUpdateQty={handleUpdateQty}
+              onDeleteItem={handleDeleteItem}
             />
           );
         })}
@@ -93,7 +140,7 @@ const Cart = () => {
 
       <section>
         <div className="font-bold">Summary</div>
-        <CartSummary />
+        <CartSummary subtotal={subtotal} />
       </section>
 
       <section>insert cart items modal here to show items</section>

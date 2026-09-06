@@ -121,29 +121,32 @@ const Cart = () => {
         </h1>
       </section>
 
-      <section>
-        {cartItems.map((item) => {
-          // Find the product matching the current cart item's productid
-          const matchedProduct = products?.find((p) => p.id === item.productid);
+      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-12 items-start">
+          <div className="md:col-span-7 lg:col-span-8 w-full min-w-0">
+            {cartItems.map((item) => {
+              // Find the product matching the current cart item's productid
+              const matchedProduct = products?.find(
+                (p) => p.id === item.productid,
+              );
 
-          return (
-            <CartItems
-              key={item.id}
-              item={item}
-              product={matchedProduct}
-              onUpdateQty={handleUpdateQty}
-              onDeleteItem={handleDeleteItem}
-            />
-          );
-        })}
-      </section>
+              return (
+                <CartItems
+                  key={item.id}
+                  item={item}
+                  product={matchedProduct}
+                  onUpdateQty={handleUpdateQty}
+                  onDeleteItem={handleDeleteItem}
+                />
+              );
+            })}
+          </div>
 
-      <section>
-        <div className="font-bold">Summary</div>
-        <CartSummary subtotal={subtotal} />
-      </section>
-
-      <section>insert cart items modal here to show items</section>
+          <div className="md:col-span-5 lg:col-span-4 w-full md:sticky md:top-8">
+            <CartSummary subtotal={subtotal} />
+          </div>
+        </div>
+      </div>
     </>
   );
 };

@@ -48,8 +48,8 @@ const CartItems = ({ item, product, onUpdateQty, onDeleteItem }) => {
       </div>
 
       {/* 5. PRICE CALCULATION (Fixed width locks layout alignment) */}
-      <div className="w-32 flex-shrink-0 text-right">
-        <span className="text-sm font-semibold text-gray-900">
+      <div className="w-24 sm:w-28 flex-shrink-0 text-right">
+        <span className="text-xs sm:text-sm font-semibold text-gray-900 block">
           {item.qty} × ${formatPrice(item.price)}
         </span>
       </div>

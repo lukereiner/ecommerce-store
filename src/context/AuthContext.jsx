@@ -27,8 +27,14 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    try {
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+    } catch (error) {
+      console.error("Logout request failed:", error)
+    } finally {
+      setUser(null);
+    }
   };
 
   // prevent rendering protected UI until backend check finishes

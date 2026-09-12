@@ -10,7 +10,7 @@ module.exports = class UserService {
       // Check if user already exists
       const user = await UserModelInstance.findUserById(id);
 
-      const { password, created, modified, ...cleanUser } = user;
+      const { password, modified, ...cleanUser } = user;
 
       // If user doesn't exist, reject
       if (!user) {

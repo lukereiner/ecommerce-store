@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductModal from "../components/store/ProductModal";
-import Navbar from "../components/home/Navbar";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Store = () => {
   const [products, setProducts] = useState(null);
@@ -10,7 +11,7 @@ const Store = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/api/products");        
+        const response = await axios.get("/api/products");
 
         const adjustedProducts = response.data.map((product) => ({
           id: product.id,
@@ -38,7 +39,6 @@ const Store = () => {
       <div>
         <Navbar />
         <section>
-          
           <h1 className="text-2xl font-bold text-center my-4">Store Catalog</h1>
         </section>
 
@@ -47,6 +47,8 @@ const Store = () => {
             <ProductModal key={product.id} product={product} />
           ))}
         </section>
+
+        <Footer />
       </div>
     </>
   );

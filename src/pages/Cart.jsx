@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import CartSummary from "../components/cart/CartSummary";
 import CartItems from "../components/cart/CartItems";
-import Navbar from "../components/home/Navbar";
+import Navbar from "../components/Navbar";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -111,14 +111,12 @@ const Cart = () => {
 
   return (
     <>
-    <section>
-      <Navbar />
-    </section>
+      <section>
+        <Navbar />
+      </section>
 
       <section className="flex justify-center mt-4">
-        <h1 className="font-bold text-3xl">
-          {user.firstname}'s Cart
-        </h1>
+        <h1 className="font-bold text-3xl">{user.firstname}'s Cart</h1>
       </section>
 
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -24,6 +24,13 @@ const OrderHistory = () => {
           date: order.created,
           total: order.total,
           status: order.status,
+          items: (order.items || []).map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+            price: item.price,
+            productId: item.productid,
+            name: item.name,
+          })),
         }));
 
         setOrders(adjustedOrders);
@@ -43,7 +50,9 @@ const OrderHistory = () => {
     <div>
       <section>
         <div>
-          <h1 className="font-bold text-2xl">Order History | {orders.length} orders</h1>
+          <h1 className="flex justify-center font-bold text-2xl">
+            Order History | {orders.length} orders
+          </h1>
         </div>
       </section>
 
@@ -53,7 +62,7 @@ const OrderHistory = () => {
         ) : (
           <div>
             {orders.map((order) => (
-              <OrderArticle key={order.id} order={order} />
+              <OrderArticle key={order.id} order={order} user={user} />
             ))}
           </div>
         )}

@@ -93,6 +93,7 @@ module.exports = class OrderModel {
               'productid', oi.productid,
               'quantity', oi.quantity,
               'price', oi.price,
+              'id', oi.id,
               'name', p.name,
               'description', p.description
             )

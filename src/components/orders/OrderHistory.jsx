@@ -51,14 +51,14 @@ const OrderHistory = () => {
       <section>
         <div>
           <h1 className="flex justify-center font-bold text-2xl">
-            Order History | {orders.length} orders
+            Order History | {orders.length} {orders.length === 1 ? "order" : "orders"}
           </h1>
         </div>
       </section>
 
       <section>
         {orders.length === 0 ? (
-          <p>No Orders found.</p>
+          <p className="flex justify-center italic">No Orders found.</p>
         ) : (
           <div>
             {orders.map((order) => (

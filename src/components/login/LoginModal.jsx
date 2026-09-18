@@ -29,9 +29,6 @@ export default function LoginModal({ onSwitchToRegister }) {
       // send user data to AuthContext
       login(response.data.user);
 
-      console.log('user login object: ', response.data.user);
-      
-
       // Redirect to user cart
       navigate("/cart");
 

@@ -4,21 +4,38 @@ const pgp = require("pg-promise")({ capSQL: true });
 module.exports = class UserModel {
   // create new user record
   async create(data) {
+    const client = await db.connect();
+
     try {
-      // Generate SQL statement
-      const statement = pgp.helpers.insert(data, null, "users") + "RETURNING *";
+      await client.query("BEGIN");
 
+      // 1. Generate SQL Statement
+      const userStatement =
+        pgp.helpers.insert(data, null, "users") + "RETURNING *";
       // Execute SQL statement
-      const result = await db.query(statement);
+      const userResult = await client.query(userStatement);
 
-      // Ensure if rows are undefined or zero, doesn't crash server
-      if (result.rows?.length) {
-        return result.rows[0];
+      if (!userResult.rows?.length) {
+        throw new Error("Failed to inset user record.");
       }
 
-      return null;
+      const newUser = userResult.rows[0];
+
+      // 2. Create cart for new user
+      const cartData = { userid: newUser.id };
+      const cartStatement =
+        pgp.helpers.insert(cartData, null, "carts") + " RETURNING *";
+
+      await client.query(cartStatement);
+
+      await client.query("COMMIT");
+
+      return newUser;
     } catch (err) {
+      await client.query("ROLLBACK");
       throw new Error(err);
+    } finally {
+      client.release();
     }
   }
 
@@ -48,41 +65,39 @@ module.exports = class UserModel {
   // Find user record by email
   async findUserByEmail(email) {
     try {
-        const statement = 'SELECT * FROM users WHERE email = $1';
-        const values = [email];
+      const statement = "SELECT * FROM users WHERE email = $1";
+      const values = [email];
 
-        // Execute SQL statement
-        const result = await db.query(statement, values);
+      // Execute SQL statement
+      const result = await db.query(statement, values);
 
-        // Ensure if rows are undefined or zero, doesn't crash server
-        if (result.rows?.length) {
-            return result.rows[0];
-        }
+      // Ensure if rows are undefined or zero, doesn't crash server
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
 
-        return null;
-
-    } catch(err) {
-        throw new Error(err); 
+      return null;
+    } catch (err) {
+      throw new Error(err);
     }
   }
 
   async findUserById(id) {
     try {
-        const statement = 'SELECT * FROM users WHERE id = $1';
-        const values = [id];
+      const statement = "SELECT * FROM users WHERE id = $1";
+      const values = [id];
 
-        // Execute SQL statement
-        const result = await db.query(statement, values);
+      // Execute SQL statement
+      const result = await db.query(statement, values);
 
-        // Ensure if rows are undefined or zero, doesn't crash server
-        if (result.rows?.length) {
-            return result.rows[0];
-        }
+      // Ensure if rows are undefined or zero, doesn't crash server
+      if (result.rows?.length) {
+        return result.rows[0];
+      }
 
-        return null;
-
-    } catch(err) {
-        throw new Error(err);
+      return null;
+    } catch (err) {
+      throw new Error(err);
     }
-  };
+  }
 };

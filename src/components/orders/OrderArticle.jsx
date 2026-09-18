@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { formatPrice } from "../../utils/formatPrice";
+import { Link } from "react-router-dom";
 
 const OrderArticle = ({ order, user }) => {
   const [orderItems, setOrderItems] = useState([]);
@@ -15,24 +16,26 @@ const OrderArticle = ({ order, user }) => {
     <div>
       <div className="w-full my-2">
         <article className="w-full">
-          <div
-            id="wrapper"
-            className="max-w-md mx-auto flex flex-row justify-between items-center p-4 border border-black rounded-md"
-          >
-            {/* Left Side: Order ID */}
-            <div className="font-bold text-2xl">#{order.id}</div>
+          <Link to={`/orders/${order.id}`} state={{ order }}>
+            <div
+              id="wrapper"
+              className="max-w-md mx-auto flex flex-row justify-between items-center p-4 border border-black rounded-md"
+            >
+              {/* Left Side: Order ID */}
+              <div className="font-bold text-2xl">#{order.id}</div>
 
-            {/* Right Side: Grid with fixed widths so columns align across cards */}
-            <div className="grid grid-cols-[80px_100px_70px] items-center text-right">
-              <span className="text-left">
-                {new Date(order.date).toLocaleDateString()}
-              </span>
-              <span className="text-right">${formatPrice(order.total)}</span>
-              <span className="text-right">
-                {order.items?.length || 0} items
-              </span>
+              {/* Right Side: Grid with fixed widths so columns align across cards */}
+              <div className="grid grid-cols-[80px_100px_70px] items-center text-right">
+                <span className="text-left">
+                  {new Date(order.date).toLocaleDateString()}
+                </span>
+                <span className="text-right">${formatPrice(order.total)}</span>
+                <span className="text-right">
+                  {order.items?.length || 0} items
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
         </article>
       </div>
     </div>

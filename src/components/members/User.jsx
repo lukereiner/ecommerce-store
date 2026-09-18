@@ -4,8 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { formatDate } from "../../utils/formatDate";
 
 const User = () => {
-
-    const { user } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="flex items-center gap-4">

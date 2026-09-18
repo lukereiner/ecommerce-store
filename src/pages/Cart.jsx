@@ -5,10 +5,20 @@ import CartSummary from "../components/cart/CartSummary";
 import CartItems from "../components/cart/CartItems";
 import Navbar from "../components/Navbar";
 
+const calculateTotals = (subtotal, taxRate = 0.07) => {
+  const subtotalCents = Math.round(subtotal * 100);
+  const taxCents = Math.round(subtotalCents * taxRate);
+
+  return {
+    tax: taxCents / 100,
+    total: (subtotalCents + taxCents) / 100,
+  };
+};
+
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [products, setProducts] = useState(null);
 
   const { user } = useAuth();
@@ -17,6 +27,8 @@ const Cart = () => {
     (acc, item) => acc + item.qty * Number(item.price),
     0,
   );
+
+  const { tax, total } = calculateTotals(subtotal);
 
   const handleDeleteItem = async (cartItemId) => {
     const previousItems = [...cartItems];
@@ -54,6 +66,24 @@ const Cart = () => {
       console.error("Failed to update cart quantity:", error);
       // revert state if backend request fails
       setCartItems(previousItems);
+    }
+  };
+
+  const handleCheckout = async (paymentData) => {
+    setIsCheckingOut(true);
+
+    try {
+      await axios.post(`/api/carts/user/${user.id}/checkout`, {
+        paymentInfo: paymentData || "9099000011114444",
+      });
+
+      // clear user cart items in UI
+      setCartItems([]);
+    } catch (error) {
+      console.error("Checkout failed:", error);
+      alert("Checkout failed. Please try again.");
+    } finally {
+      setIsCheckingOut(false);
     }
   };
 
@@ -141,7 +171,13 @@ const Cart = () => {
           </div>
 
           <div className="md:col-span-5 lg:col-span-4 w-full md:sticky md:top-8">
-            <CartSummary subtotal={subtotal} />
+            <CartSummary
+              subtotal={subtotal}
+              tax={tax}
+              total={total}
+              onCheckout={handleCheckout}
+              isCheckingOut={isCheckingOut}
+            />
           </div>
         </div>
       </div>

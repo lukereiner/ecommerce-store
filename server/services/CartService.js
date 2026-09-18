@@ -33,7 +33,8 @@ module.exports = class CartService {
 
       const { created, modified, ...cleanCart } = cart;
 
-      const itemsWithProducts = await CartItemsModelInstance.getCartItemsWithProducts(cart.cartid);
+      const itemsWithProducts =
+        await CartItemsModelInstance.getCartItemsWithProducts(cart.cartid);
 
       cleanCart.items = itemsWithProducts;
 
@@ -53,7 +54,8 @@ module.exports = class CartService {
         throw createError(404, "Cart not found");
       }
 
-      const itemsWithProducts = await CartItemsModelInstance.getCartItemsWithProducts(cart.cartid);
+      const itemsWithProducts =
+        await CartItemsModelInstance.getCartItemsWithProducts(cart.cartid);
 
       cart.items = itemsWithProducts;
 
@@ -70,7 +72,10 @@ module.exports = class CartService {
       const itemsToAdd = await CartItemsModelInstance.addToCart(data);
 
       if (!itemsToAdd) {
-        throw createError(400, "No item(s) to add. Check to make sure you do not already have the product you are trying to add.");
+        throw createError(
+          400,
+          "No item(s) to add. Check to make sure you do not already have the product you are trying to add.",
+        );
       }
 
       return itemsToAdd;
@@ -115,7 +120,7 @@ module.exports = class CartService {
       const cartToDelete = await CartItemsModelInstance.deleteCart(data);
 
       if (!cartToDelete) {
-        throw createError(404, "Cannot delete cart")
+        throw createError(404, "Cannot delete cart");
       }
     } catch (err) {
       throw err;
@@ -126,23 +131,32 @@ module.exports = class CartService {
   async cartCheckout(userId, paymentInfo) {
     try {
       // Use userId to look up cartId to pass to cartItems below
-      const cartId = await CartModelInstance.getCartByUser({userId});
+      const cartId = await CartModelInstance.getCartByUser({ userId });
 
       // Retrieve cart items
-      const cartItems = await CartItemsModelInstance.getCartItemsWithProducts(cartId);
+      const cartItems =
+        await CartItemsModelInstance.getCartItemsWithProducts(cartId);
 
       // Check for items before proceeding with order
       if (!cartItems || cartItems.length === 0) {
-        throw createError(400, 'Cannot proceed to checkout: cart is empty.')
+        throw createError(400, "Cannot proceed to checkout: cart is empty.");
       }
-      
+
       // Generate a price for entire cart
-      const totalPrice = cartItems.reduce((total, item) => {
-        return total += Number(item.price);
-      },0)
+      const subtotalCents = cartItems.reduce((sum, item) => {
+        const itemPriceCents = Math.round(Number(item.price) * 100);
+        const itemQty = Number(item.qty) || 1;
+        return sum + itemPriceCents * itemQty;
+      }, 0);
+
+      const taxRate = 0.07;
+      const taxCents = Math.round(subtotalCents * taxRate);
+
+      // Convert grand total back to dollars
+      const totalPrice = (subtotalCents + taxCents) / 100;
 
       // Generate the order
-      const Order = new OrderModel({totalPrice, userId});
+      const Order = new OrderModel({ totalPrice, userId });
       Order.addItems(cartItems);
 
       // Capture created order object from DB
@@ -152,33 +166,38 @@ module.exports = class CartService {
       Order.id = savedOrder.id;
 
       // Simulating payment processing
-      console.log(`[Payment] Initializing charge of $${totalPrice} for User ${userId}...`);
-      
+      console.log(
+        `[Payment] Initializing charge of $${totalPrice} for User ${userId}...`,
+      );
+
       // 3 second delay
-      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
       await delay(2000);
 
       // Complete simulation of payment processing
       console.log(`[Payment] Charge successful via simulated gateway.`);
 
-      const updatedOrder = await Order.update({ id: Order.id, status: 'COMPLETE'});
+      const updatedOrder = await Order.update({
+        id: Order.id,
+        status: "COMPLETE",
+      });
 
-      if (updatedOrder.status === 'COMPLETE') {
+      if (updatedOrder.status === "COMPLETE") {
         // Map array elements to fit database model
-        const orderItemsData = cartItems.map(item => ({
+        const orderItemsData = cartItems.map((item) => ({
           orderId: updatedOrder.id,
           productId: item.productid,
           quantity: item.qty,
-          price: Number(item.price)
+          price: Number(item.price),
         }));
 
-        const generateOrderItems = await OrderItemsModelInstance.create(orderItemsData);
+        const generateOrderItems =
+          await OrderItemsModelInstance.create(orderItemsData);
       }
 
-      const isCartCleared = await CartItemsModelInstance.deleteCart({userId});
+      const isCartCleared = await CartItemsModelInstance.deleteCart({ userId });
 
       return updatedOrder;
-
     } catch (err) {
       throw err;
     }

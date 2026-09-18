@@ -13,25 +13,6 @@ const OrderArticle = ({ order, user }) => {
 
   return (
     <div>
-      {/*       <article>
-        <h2>Order #{order.id}</h2>
-        <p>Date: {new Date(order.date).toLocaleDateString()}</p>
-        <p>Total: ${formatPrice(order.total)}</p>
-        <p>Status: {order.status}</p>
-        <p>User of this order: {user.id}</p>
-        <p># of Items: {order.items.length}</p>
-        <p>Total quantity: {totalQuantity}</p>
-        <div>
-        {(order.items || []).map((item) => (
-            <div key={item.id}>
-                <div>
-                    <p>{item.name} - ${formatPrice(item.price)}</p>
-                </div>
-            </div>
-        ))}
-        </div>
-      </article> */}
-
       <div className="w-full my-2">
         <article className="w-full">
           <div

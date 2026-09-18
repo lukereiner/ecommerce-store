@@ -10,6 +10,7 @@ import Members from "./pages/Members.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./context/ProtectedRoute.jsx";
 import Order from "./components/orders/Order.jsx";
+import Product from "./components/store/Product.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/members" element={<Members />}/>
           </Route>
           <Route path="/store" element={<Store />} />
+          <Route path="/products/:productId" element={<Product />}/>
           <Route path="/orders/:orderId" element={<Order />}/>
         </Routes>
       </BrowserRouter>

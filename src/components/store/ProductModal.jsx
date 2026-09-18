@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { formatPrice } from "../../utils/formatPrice";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const ProductModal = ({ product }) => {
   const { user } = useAuth();
@@ -52,13 +53,14 @@ const ProductModal = ({ product }) => {
       id="main"
       className="flex flex-col justify-between items-center border p-4 rounded-lg shadow-sm w-64 h-full text-center bg-white"
     >
-      <div className="w-full h-48 flex items-center justify-center overflow-hidden mb-3">
+              <Link to={`/products/${product.id}`} state={{ product }}>
+                    <div className="w-full h-48 flex items-center justify-center overflow-hidden mb-3">
         <img
           className="max-h-full max-w-full object-contain"
           src={`/products/${product.image_url}`}
           alt={product.name}
         />
-      </div>
+      </div></Link>
 
       <div className="flex flex-col flex-grow justify-start items-center w-full mb-3">
         <h3 className="font-bold text-gray-900 line-clamp-1 mb-1">

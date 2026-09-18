@@ -95,7 +95,8 @@ module.exports = class OrderModel {
               'price', oi.price,
               'id', oi.id,
               'name', p.name,
-              'description', p.description
+              'description', p.description,
+              'image_url', p.image_url
             )
           ) FILTER (WHERE oi.id IS NOT NULL), '[]'
         ) AS items

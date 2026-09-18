@@ -30,6 +30,8 @@ const OrderHistory = () => {
             price: item.price,
             productId: item.productid,
             name: item.name,
+            description: item.description,
+            image_url: item.image_url
           })),
         }));
 

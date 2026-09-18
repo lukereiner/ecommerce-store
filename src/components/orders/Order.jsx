@@ -41,7 +41,18 @@ const Order = () => {
         {order.items?.map((item) => (
           <li key={item.id} className="p-3 flex justify-between">
             <div>
-              <p className="font-medium">{item.name}</p>
+                <Link to={`/products/${item.productId}`} state={{
+                    product: {
+                        id: item.productId,
+                        name: item.name,
+                        price: item.price,
+                        description: item.description,
+                        image_url: item.image_url,
+                    },
+                }}
+                className="font-medium text-blue-600 hover:underline hover:text-blue-800 transition-colors">
+                    {item.name}
+                </Link>
               <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
             </div>
             <p className="font-semibold">${formatPrice(item.price)}</p>

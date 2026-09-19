@@ -40,13 +40,18 @@ module.exports = class UserModel {
   }
 
   // Update a user record
-  async update(data) {
+  async update(data) {    
     try {
-      const { id, ...params } = data;
+      const { id, ...updateFields } = data;
+
+      // Filter out undefined fields so we only update supplied fields
+      const cleanUpdateFields = Object.fromEntries(
+        Object.entries(updateFields).filter(([_, v]) => v !== undefined)
+      );
 
       // Generate SQL Statement to update
       const condition = pgp.as.format("WHERE id = ${id} RETURNING *", { id });
-      const statement = pgp.helpers.update(params, null, "users") + condition;
+      const statement = pgp.helpers.update(cleanUpdateFields, null, "users") + condition;
 
       // EXECUTE SQL STATEMENT
       const result = await db.query(statement);
@@ -85,10 +90,9 @@ module.exports = class UserModel {
   async findUserById(id) {
     try {
       const statement = "SELECT * FROM users WHERE id = $1";
-      const values = [id];
 
       // Execute SQL statement
-      const result = await db.query(statement, values);
+      const result = await db.query(statement, [id]);
 
       // Ensure if rows are undefined or zero, doesn't crash server
       if (result.rows?.length) {

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const OrderService = require("../services/OrderService");
+const { checkAuthentication } = require("../middleware/auth")
 
 const OrderServiceInstance = new OrderService();
 
@@ -8,7 +9,7 @@ module.exports = (app) => {
   app.use(express.json());
   app.use("/orders", router);
 
-  router.get("/", async (req, res) => {
+  router.get("/", checkAuthentication, async (req, res, next) => {
     try {
       const response = await OrderServiceInstance.getAllOrders();
       res.status(200).send(response);
@@ -28,7 +29,7 @@ module.exports = (app) => {
     }
   });
 
-  router.get("/:id", async (req, res, next) => {
+  router.get("/:id", checkAuthentication, async (req, res, next) => {
     try {
       const { id } = req.params;
 

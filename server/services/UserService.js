@@ -4,19 +4,25 @@ const UserModelInstance = new UserModel();
 
 module.exports = class UserService {
   async get(data) {
-    const { id } = data;
+    const { id, userId } = data;
 
     try {
-      // Check if user already exists
       const user = await UserModelInstance.findUserById(id);
 
-      const { password, modified, ...cleanUser } = user;
-
-      // If user doesn't exist, reject
+      // 1. First check if user exists
       if (!user) {
         throw createError(404, "User record not found");
       }
 
+      // 2. Check ownership BEFORE returning data
+      if (user.id !== userId) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to view this user",
+        );
+      }
+
+      const { password, modified, ...cleanUser } = user;
       return cleanUser;
     } catch (err) {
       throw err;
@@ -42,11 +48,33 @@ module.exports = class UserService {
   }
 
   async update(data) {
-    try {
-      // Check if user already exists
-      const user = await UserModelInstance.update(data);
+    const { id, userId, firstname, lastname, email } = data;
 
-      const { id, password, created, modified, ...cleanUser } = user;
+    try {
+
+      const existingUser = await UserModelInstance.findUserById(id);
+
+      if (!existingUser) {
+        throw createError(404, "User record not found");
+      }
+
+      // 2. Check authorization BEFORE making changes in DB
+      if (existingUser.id !== userId) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to update this user"
+        );
+      }
+
+     // 3. Execute update with whitelisted data only
+      const updatedUser = await UserModelInstance.update({
+        id: userId, // Ensure DB operation targets authenticated ID
+        firstname,
+        lastname,
+        email
+      });
+
+      const { password, created, modified, ...cleanUser } = updatedUser;
 
       return cleanUser;
     } catch (err) {

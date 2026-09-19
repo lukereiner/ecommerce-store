@@ -23,10 +23,10 @@ createRoot(document.getElementById("root")).render(
           <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<Cart />} />
             <Route path="/members" element={<Members />}/>
+            <Route path="/orders/:orderId" element={<Order />}/>
           </Route>
           <Route path="/store" element={<Store />} />
           <Route path="/products/:productId" element={<Product />}/>
-          <Route path="/orders/:orderId" element={<Order />}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

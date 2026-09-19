@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import ProductModal from "../components/store/ProductModal";
 import Navbar from "../components/Navbar";
@@ -32,25 +32,38 @@ const Store = () => {
     fetchProducts();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="flex flex-col min-h-screen w-full bg-gray-50">
+        <Navbar />
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 flex items-center justify-center">
+          <p className="text-gray-500 font-medium">Loading store catalog...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        <Navbar />
-        <section>
-          <h1 className="text-2xl font-bold text-center my-4">Store Catalog</h1>
-        </section>
+    <div className="flex flex-col min-h-screen w-full bg-gray-50">
+      <Navbar />
 
-        <section className="flex flex-wrap gap-4 justify-center mb-8">
-          {products.map((product) => (
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Page Header */}
+        <div className="border-b border-gray-200 pb-4">
+          <h1 className="text-2xl font-bold text-gray-900">Store Catalog</h1>
+        </div>
+
+        {/* Responsive Grid Layout */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-stretch">
+          {products?.map((product) => (
             <ProductModal key={product.id} product={product} />
           ))}
         </section>
+      </main>
 
-        <Footer />
-      </div>
-    </>
+      <Footer />
+    </div>
   );
 };
 

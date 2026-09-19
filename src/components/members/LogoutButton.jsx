@@ -1,9 +1,8 @@
-import React from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const LogoutButton = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -12,11 +11,12 @@ const LogoutButton = () => {
   };
 
   return (
-    <div>
-      <button className="w-full px-4 rounded-lg bg-blue-600 py-2.5 text-sm font-mediym text-white hover:bg-blue-700 cursor-pointer transition" onClick={handleLogout}>
-        Logout
-      </button>
-    </div>
+    <button
+      className="w-full sm:w-auto px-6 py-2.5 rounded-md bg-blue-600 text-sm font-medium text-white hover:bg-blue-700 transition-colors shadow-sm focus:outline-none"
+      onClick={handleLogout}
+    >
+      Logout
+    </button>
   );
 };
 

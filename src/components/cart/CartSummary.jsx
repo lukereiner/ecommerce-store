@@ -1,40 +1,40 @@
-import React from "react";
 import { formatPrice } from "../../utils/formatPrice";
 
 const CartSummary = ({ subtotal, tax, total, onCheckout, isCheckingOut }) => {
-
   return (
-    <div className="w-full bg-gray-50 p-4 sm:p-6 rounded-lg border border-gray-100 box-border">
+    <div className="w-full bg-white p-6 rounded-xl border border-gray-100 shadow-sm box-border space-y-6">
       {/* SECTION TITLE */}
-      <h2 className="text-lg sm:text-xl font-medium mb-4 sm:mb-6 text-gray-900">
-        Summary
+      <h2 className="text-xl font-bold text-gray-900 border-b border-gray-100 pb-3">
+        Order Summary
       </h2>
 
       {/* COST BREAKDOWN */}
-      <div className="space-y-3 text-xs sm:text-sm border-b border-gray-200 pb-4 sm:pb-6">
+      <div className="space-y-3 text-sm">
         <div className="flex justify-between items-center text-gray-600">
           <span>Subtotal</span>
-          <span className="font-medium text-gray-900">
+          <span className="font-semibold text-gray-900">
             ${formatPrice(subtotal)}
           </span>
         </div>
 
         <div className="flex justify-between items-center text-gray-600">
           <span>Estimated Tax (7%)</span>
-          <span className="font-medium text-gray-900">${formatPrice(tax)}</span>
+          <span className="font-semibold text-gray-900">${formatPrice(tax)}</span>
         </div>
       </div>
 
-      {/* TOTAL AMOUNT */}
-      <div className="flex justify-between items-center pt-4 sm:pt-6 pb-4 sm:pb-6 text-xs sm:text-sm">
-        <span className="font-bold text-gray-900">Total</span>
-        <div className="text-right">
-          <span className="text-[10px] sm:text-xs text-gray-400 mr-1 uppercase font-medium">
-            USD
-          </span>
-          <span className="font-bold text-sm sm:text-base text-gray-900">
-            ${formatPrice(total)}
-          </span>
+      <div className="border-t border-gray-100 pt-4">
+        {/* TOTAL AMOUNT */}
+        <div className="flex justify-between items-center">
+          <span className="font-bold text-base text-gray-900">Total</span>
+          <div className="text-right">
+            <span className="text-xs text-gray-400 mr-1.5 uppercase font-medium">
+              USD
+            </span>
+            <span className="font-bold text-lg text-gray-900">
+              ${formatPrice(total)}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ const CartSummary = ({ subtotal, tax, total, onCheckout, isCheckingOut }) => {
       <button
         onClick={() => onCheckout()}
         disabled={isCheckingOut || subtotal === 0}
-        className="mt-4 w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
+        className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-semibold shadow-sm focus:outline-none"
       >
         {isCheckingOut ? (
           <>

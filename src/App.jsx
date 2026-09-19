@@ -9,10 +9,10 @@ import Footer from "./components/Footer";
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen w-full">
+    <div className="flex flex-col min-h-screen w-full bg-gray-50">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-12">
         <HomeHeader />
         <FeaturedItems />
         <RecentlyAddedItems />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import OrderArticle from "./OrderArticle";
@@ -31,7 +31,7 @@ const OrderHistory = () => {
             productId: item.productid,
             name: item.name,
             description: item.description,
-            image_url: item.image_url
+            image_url: item.image_url,
           })),
         }));
 
@@ -46,29 +46,31 @@ const OrderHistory = () => {
     fetchOrders();
   }, [user?.id]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return <p className="text-center py-8 text-gray-500 font-medium">Loading orders...</p>;
 
   return (
-    <div>
-      <section>
-        <div>
-          <h1 className="flex justify-center font-bold text-2xl">
-            Order History | {orders.length} {orders.length === 1 ? "order" : "orders"}
-          </h1>
-        </div>
-      </section>
+    <div className="space-y-6">
+      <div className="border-b border-gray-100 pb-4">
+        <h2 className="text-2xl font-bold text-gray-900 text-center sm:text-left">
+          Order History{" "}
+          <span className="text-base font-normal text-gray-500">
+            ({orders.length} {orders.length === 1 ? "order" : "orders"})
+          </span>
+        </h2>
+      </div>
 
-      <section>
+      <div>
         {orders.length === 0 ? (
-          <p className="flex justify-center italic">No Orders found.</p>
+          <p className="text-center py-8 text-gray-500 italic">No orders found.</p>
         ) : (
-          <div>
+          <div className="space-y-4">
             {orders.map((order) => (
               <OrderArticle key={order.id} order={order} user={user} />
             ))}
           </div>
         )}
-      </section>
+      </div>
     </div>
   );
 };

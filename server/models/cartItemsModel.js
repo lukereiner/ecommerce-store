@@ -120,15 +120,18 @@ module.exports = class CartItemsModel {
   async deleteCart(data) {
     const { userId } = data;
 
+    const cleanUserId = Number(userId);
+
     try {
       const statement = `
       DELETE FROM cart_items
       USING carts
-      WHERE cart_items.cartid = carts.cartId
+      WHERE cart_items.cartid = carts.cartid
       AND carts.userid = $1
+      RETURNING *;
       `;
 
-      const result = await db.query(statement, [userId]);
+      const result = await db.query(statement, [cleanUserId]);
 
       // returns true if items were deleted, false if the cart was already empty, as result.rowCount tells how many records were actually deleted
       return result.rowCount > 0;

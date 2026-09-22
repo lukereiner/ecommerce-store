@@ -2,7 +2,6 @@ const createError = require("http-errors");
 const CartModel = require("../models/cartsModel");
 const CartItemsModel = require("../models/cartItemsModel");
 const OrderModel = require("../models/ordersModel");
-const { user } = require("pg/lib/defaults");
 const OrderItemsModel = require("../models/orderItemsModel");
 
 const CartModelInstance = new CartModel();
@@ -25,8 +24,18 @@ module.exports = class CartService {
   }
 
   async getCartByUser(data) {
+    const { userId, passportId } = data;
+
     try {
+      if (String(userId) !== String(passportId)) {
+        throw createError(
+          403,
+          "Access denied: You cannot access another user's cart",
+        );
+      }
+
       const cart = await CartModelInstance.getCartUser(data);
+
       if (!cart) {
         throw createError(404, "No cart for this user");
       }
@@ -45,13 +54,20 @@ module.exports = class CartService {
   }
 
   async getCartById(data) {
-    const { id } = data;
+    const { id, passportId } = data;
 
     try {
       const cart = await CartModelInstance.getCartId(id);
 
       if (!cart) {
         throw createError(404, "Cart not found");
+      }
+
+      if (cart.userid !== passportId) {
+        throw createError(
+          403,
+          "Access denied: You cannot access another user's cart",
+        );
       }
 
       const itemsWithProducts =
@@ -68,8 +84,20 @@ module.exports = class CartService {
   // CART ITEMS MODEL
   // add items to cart
   async addItems(data) {
+    const { userId, passportId, ...rest } = data;
+
     try {
-      const itemsToAdd = await CartItemsModelInstance.addToCart(data);
+      if (String(userId) !== String(passportId)) {
+        throw createError(
+          403,
+          "Access denied: Cannot add items to another user's cart",
+        );
+      }
+
+      const itemsToAdd = await CartItemsModelInstance.addToCart({
+        userId,
+        ...rest,
+      });
 
       if (!itemsToAdd) {
         throw createError(
@@ -86,8 +114,16 @@ module.exports = class CartService {
 
   // update select items in cart
   async updateItems(data) {
+    const { userId, passportId, ...rest } = data;
     try {
-      const itemsToUpdate = await CartItemsModelInstance.update(data);
+      if (String(userId) !== String(passportId)) {
+        throw createError(
+          403,
+          "Access denied: You cannot update another user's cart",
+        );
+      }
+
+      const itemsToUpdate = await CartItemsModelInstance.update({ ...rest });
 
       if (!itemsToUpdate) {
         throw createError(404, "Cannot update item");
@@ -101,8 +137,17 @@ module.exports = class CartService {
 
   // delete select items in cart
   async deleteItems(data) {
+    const { userId, passportId, ...rest } = data;
+
     try {
-      const itemsToDelete = await CartItemsModelInstance.delete(data);
+      if (String(userId) !== String(passportId)) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to delete an item from another user's cart",
+        );
+      }
+
+      const itemsToDelete = await CartItemsModelInstance.delete({ ...rest });
 
       if (!itemsToDelete) {
         throw createError(404, "Cannot delete item");
@@ -116,20 +161,30 @@ module.exports = class CartService {
 
   // Delete all items in cart
   async deleteMyCart(data) {
-    try {
-      const cartToDelete = await CartItemsModelInstance.deleteCart(data);
+    const { userId, passportId } = data;
 
-      if (!cartToDelete) {
-        throw createError(404, "Cannot delete cart");
+    try {
+      if (String(userId) !== String(passportId)) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to delete an item from another user's cart",
+        );
       }
+
+      await CartItemsModelInstance.deleteCart({userId});
     } catch (err) {
       throw err;
     }
   }
 
   // Checkout - create order
-  async cartCheckout(userId, paymentInfo) {
+  async cartCheckout(userId, passportId, paymentInfo) {
     try {
+
+      if (String(userId) !== String(passportId)) {
+        throw createError(403, "Access denied: You cannot checkout for another user")
+      }
+
       // Use userId to look up cartId to pass to cartItems below
       const cartId = await CartModelInstance.getCartByUser({ userId });
 

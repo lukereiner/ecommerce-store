@@ -1,15 +1,24 @@
 const createError = require("http-errors");
 const OrderModel = require("../models/ordersModel");
-const OrderItemsModel = require("../models/orderItemsModel");
-const { user } = require("pg/lib/defaults");
 
 const OrderModelInstance = new OrderModel();
-const OrderItemsModelInstance = new OrderItemsModel();
 
 module.exports = class OrderService {
   // Retrieve all orders from ORDERS table
-  async getAllOrders() {
+  async getAllOrders(data) {
+    const { passportId } = data;
+
     try {
+      
+      if (passportId !== 19) {
+        // using id of 19 as an admin to test only this account can access all orders
+
+        throw createError(
+          403,
+          "Access denied: you are not the admin and cannot view all orders",
+        );
+      }
+
       const order = await OrderModelInstance.getAllOrders();
 
       if (!order) {
@@ -24,8 +33,18 @@ module.exports = class OrderService {
 
   // Get all user's orders with items within each order
   async listUserOrders(data) {
-    const { userId } = data;
+    const { userId, passportId } = data;
+    
     try {
+      const convertedPassportId = String(passportId);
+
+      if (userId !== convertedPassportId) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to view this order"
+        )
+      }
+
       const ordersWithItems =
         await OrderModelInstance.findByUserWithItems(userId);
 
@@ -40,13 +59,20 @@ module.exports = class OrderService {
   }
 
   async getByOrderId(data) {
-    const { id } = data;
+    const { id, passportId } = data;
 
     try {
       const orderItems = await OrderModelInstance.findByOrderId(id);
 
       if (!orderItems) {
-        throw createError(404, 'Order not found');
+        throw createError(404, "Order not found");
+      }
+
+      if (orderItems.userid !== passportId) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to view this order"
+        )
       }
 
       return orderItems;

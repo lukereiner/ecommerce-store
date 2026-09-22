@@ -11,18 +11,21 @@ module.exports = (app) => {
 
   router.get("/", checkAuthentication, async (req, res, next) => {
     try {
-      const response = await OrderServiceInstance.getAllOrders();
+      const passportId = req.user.id;
+
+      const response = await OrderServiceInstance.getAllOrders({passportId});
       res.status(200).send(response);
     } catch (err) {
       next(err);
     }
   });
 
-  router.get("/user/:userId", async (req, res, next) => {
+  router.get("/user/:userId", checkAuthentication, async (req, res, next) => {
     try {
       const { userId } = req.params;
+      const passportId = req.user.id;
 
-      const response = await OrderServiceInstance.listUserOrders({ userId });
+      const response = await OrderServiceInstance.listUserOrders({ userId, passportId });
       res.status(200).send(response);
     } catch (err) {
       next(err);
@@ -32,8 +35,9 @@ module.exports = (app) => {
   router.get("/:id", checkAuthentication, async (req, res, next) => {
     try {
       const { id } = req.params;
+      const passportId = req.user.id;
 
-      const response = await OrderServiceInstance.getByOrderId({ id });
+      const response = await OrderServiceInstance.getByOrderId({ id, passportId });
       res.status(200).send(response);
     } catch (err) {
       next(err);

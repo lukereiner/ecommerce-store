@@ -4,7 +4,7 @@ const cartRouter = require('./carts');
 const orderRouter = require('./orders');
 const authRouter = require('./auth')
 
-module.exports = (app, passport) => {
+module.exports = (app) => {
     userRouter(app);
     productRouter(app);
     cartRouter(app);

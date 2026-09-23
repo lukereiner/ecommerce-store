@@ -232,6 +232,8 @@ module.exports = class CartService {
           },
           note: `Order #${Order.id} for User ${userId}`,
           referenceId: String(Order.id),
+          customerId: userId,
+          locationId: process.env.VITE_SQUARE_LOCATION_ID,
         });
 
         paymentResult = response.payment || response.result?.payment;

@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const CartService = require("../services/CartService");
 const { checkAuthentication } = require("../middleware/auth")
+const { cartLimiter, checkoutLimiter } = require("../middleware/rateLimiters")
 
 const CartServiceInstance = new CartService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/carts", router);
+  app.use("/carts", cartLimiter, router);
 
   router.post("/user/:userId", async (req, res, next) => {
     try {
@@ -107,7 +108,7 @@ module.exports = (app) => {
   });
 
   // Checkout
-  router.post("/user/:userId/checkout", checkAuthentication, async (req, res, next) => {
+  router.post("/user/:userId/checkout", checkAuthentication, checkoutLimiter, async (req, res, next) => {
     try {
       const { userId } = req.params;
       const { paymentInfo } = req.body;

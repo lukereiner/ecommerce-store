@@ -6,6 +6,7 @@ import CartItems from "../components/cart/CartItems";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
+import SquareCheckout from "../components/cart/SquareCheckout";
 
 const calculateTotals = (subtotal, taxRate = 0.07) => {
   const subtotalCents = Math.round(subtotal * 100);
@@ -179,13 +180,17 @@ const Cart = () => {
 
             {/* Cart Summary Container */}
             <div className="md:col-span-5 lg:col-span-4 w-full md:sticky md:top-24">
-              <CartSummary
+{/*               <CartSummary
                 subtotal={subtotal}
                 tax={tax}
                 total={total}
                 onCheckout={handleCheckout}
                 isCheckingOut={isCheckingOut}
-              />
+              /> */}
+              <CartSummary subtotal={subtotal} tax={tax} total={total} />
+                <SquareCheckout userId={user.id} onSuccess={({order}) => {
+                  setCartItems([])
+                }} />
             </div>
           </div>
         )}

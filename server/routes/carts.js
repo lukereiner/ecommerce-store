@@ -115,7 +115,7 @@ module.exports = (app) => {
 
       const response = await CartServiceInstance.cartCheckout(userId, passportId, paymentInfo);
 
-      res.status(200).send(response);
+      res.status(200).json(response);
     } catch (err) {
       next(err);
     }

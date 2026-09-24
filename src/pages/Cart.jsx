@@ -6,7 +6,6 @@ import CartItems from "../components/cart/CartItems";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import SquareCheckout from "../components/cart/SquareCheckout";
 
 const calculateTotals = (subtotal, taxRate = 0.07) => {
   const subtotalCents = Math.round(subtotal * 100);
@@ -69,21 +68,8 @@ const Cart = () => {
     }
   };
 
-  const handleCheckout = async (paymentData) => {
-    setIsCheckingOut(true);
-
-    try {
-      await axios.post(`/api/carts/user/${user.id}/checkout`, {
-        paymentInfo: paymentData || "9099000011114444",
-      });
-
-      setCartItems([]);
-    } catch (error) {
-      console.error("Checkout failed:", error);
-      alert("Checkout failed. Please try again.");
-    } finally {
-      setIsCheckingOut(false);
-    }
+  const handleSuccess = () => {
+    setCartItems([]);
   };
 
   useEffect(() => {
@@ -149,7 +135,9 @@ const Cart = () => {
 
         {cartItems.length === 0 && !loading ? (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center space-y-4">
-            <p className="text-gray-500 font-medium">Your shopping cart is empty.</p>
+            <p className="text-gray-500 font-medium">
+              Your shopping cart is empty.
+            </p>
             <Link
               to="/store"
               className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors shadow-sm"
@@ -180,17 +168,13 @@ const Cart = () => {
 
             {/* Cart Summary Container */}
             <div className="md:col-span-5 lg:col-span-4 w-full md:sticky md:top-24">
-{/*               <CartSummary
+              <CartSummary
                 subtotal={subtotal}
                 tax={tax}
                 total={total}
-                onCheckout={handleCheckout}
-                isCheckingOut={isCheckingOut}
-              /> */}
-              <CartSummary subtotal={subtotal} tax={tax} total={total} />
-                <SquareCheckout userId={user.id} onSuccess={({order}) => {
-                  setCartItems([])
-                }} />
+                userId={user.id}
+                onSuccess={handleSuccess}
+              />
             </div>
           </div>
         )}

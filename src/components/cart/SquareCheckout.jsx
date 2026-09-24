@@ -43,9 +43,9 @@ export default function SquareCheckout({ userId, onSuccess }) {
 
   return (
     <div style={{ maxWidth: "420px", margin: "0 auto", padding: "1rem" }}>
-      <h3 style={{ marginBottom: "1rem", textAlign: "center" }}>
+{/*       <h3 style={{ marginBottom: "1rem", textAlign: "center" }}>
         Payment Details
-      </h3>
+      </h3> */}
 
       {errorMsg && (
         <div

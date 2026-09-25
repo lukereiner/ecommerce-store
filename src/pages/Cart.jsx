@@ -20,7 +20,6 @@ const calculateTotals = (subtotal, taxRate = 0.07) => {
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [products, setProducts] = useState(null);
 
   const { user } = useAuth();

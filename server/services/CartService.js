@@ -4,10 +4,12 @@ const CartItemsModel = require("../models/cartItemsModel");
 const OrderModel = require("../models/ordersModel");
 const OrderItemsModel = require("../models/orderItemsModel");
 const { squareClient, randomUUID } = require("../utils/squareClient");
+const UserModel = require("../models/usersModel")
 
 const CartModelInstance = new CartModel();
 const CartItemsModelInstance = new CartItemsModel();
 const OrderItemsModelInstance = new OrderItemsModel();
+const UserModelInstance = new UserModel();
 
 module.exports = class CartService {
   async create(data) {
@@ -195,6 +197,7 @@ module.exports = class CartService {
 
       // 1. Look up user cart and items
       const cartId = await CartModelInstance.getCartByUser({ userId });
+      const cartUser = await UserModelInstance.findUserById(userId)
       const cartItems =
         await CartItemsModelInstance.getCartItemsWithProducts(cartId);
 
@@ -230,7 +233,7 @@ module.exports = class CartService {
             amount: BigInt(totalCents),
             currency: "USD",
           },
-          note: `Order #${Order.id} for User ${userId}`,
+          note: `Order #${Order.id} for ${cartUser.firstname} ${cartUser.lastname} (#${userId})`,
           referenceId: String(Order.id),
           customerId: userId,
           locationId: process.env.VITE_SQUARE_LOCATION_ID,

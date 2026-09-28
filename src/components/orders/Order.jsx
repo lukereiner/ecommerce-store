@@ -2,6 +2,7 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import { formatPrice } from "../../utils/formatPrice";
 import Navbar from "../Navbar";
 import Footer from "../Footer";
+import RefundButton from "../refunds/RefundButton";
 
 const Order = () => {
   const { orderId } = useParams();
@@ -132,6 +133,11 @@ const Order = () => {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Refund Button */}
+        <div className="flex justify-center">
+          <RefundButton order={order}/>
         </div>
       </main>
 

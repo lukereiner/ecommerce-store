@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./context/ProtectedRoute.jsx";
 import Order from "./components/orders/Order.jsx";
 import Product from "./components/store/Product.jsx";
+import RefundOrder from "./components/refunds/RefundOrder.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/cart" element={<Cart />} />
             <Route path="/members" element={<Members />}/>
             <Route path="/orders/:orderId" element={<Order />}/>
+            <Route path="/refunds/:orderId" element={<RefundOrder />}/>
           </Route>
           <Route path="/store" element={<Store />} />
           <Route path="/products/:productId" element={<Product />}/>

@@ -37,7 +37,7 @@ module.exports = class OrderModel {
       const { items, ...order } = this;
 
       const statement =
-        pgp.helpers.insert(order, null, "orders") + " RETURNING*";
+        pgp.helpers.insert(order, null, "orders") + " RETURNING *";
 
       const result = await db.query(statement);
 
@@ -110,6 +110,45 @@ module.exports = class OrderModel {
 
       const result = await db.query(statement, [userId]);
       return result.rows || [];
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  // Find order by order ID with items
+  async findByOrderWithItems(orderId) {
+    try {
+      const statement = `
+      SELECT 
+        o.id, 
+        o.created, 
+        o.modified, 
+        o.total, 
+        o.status, 
+        o.userid,
+        COALESCE(
+          JSON_AGG(
+            JSON_BUILD_OBJECT(
+              'productid', oi.productid,
+              'quantity', oi.quantity,
+              'price', oi.price,
+              'id', oi.id,
+              'name', p.name,
+              'description', p.description,
+              'image_url', p.image_url
+            )
+          ) FILTER (WHERE oi.id IS NOT NULL), '[]'
+        ) AS items
+      FROM orders o
+      LEFT JOIN order_items oi ON o.id = oi.orderid
+      LEFT JOIN products p ON oi.productid = p.id
+      WHERE o.id = $1
+      GROUP BY o.id
+      ORDER BY o.created DESC;
+    `;
+
+      const result = await db.query(statement, [orderId]);
+      return result.rows[0] || null;
     } catch (err) {
       throw new Error(err);
     }

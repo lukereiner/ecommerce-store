@@ -27,10 +27,16 @@ module.exports = class RefundService {
     const { orderId, items } = data;
 
     try {
+        // Fetch user ID for order to use for Square details
+        const getUserId = await OrderModelInstance.findByOrderId(orderId);
+
       // 1. Fetch order details (handles array or single object return)
       const searchOrderResult = await OrderModelInstance.findByOrderWithItems(
         Number(orderId),
       );
+
+      console.log('searchOrderResult: ', searchOrderResult)
+
       const order = Array.isArray(searchOrderResult)
         ? searchOrderResult[0]
         : searchOrderResult;
@@ -86,6 +92,31 @@ module.exports = class RefundService {
       const savedRefund = await Refund.createRefund();
       Refund.id = savedRefund.id;
 
+      // Refund customer via Square API
+      let refundResult;
+      try {
+        const response = await squareClient.refunds.refundPayment({
+            idempotencyKey: randomUUID(),
+            amountMoney: {
+                amount: BigInt(totalCents),
+                currency: "USD",
+            },
+            reason: "Didn't want items",
+            //customerId: String(getUserId.userid),
+            paymentId: searchOrderResult.square_payment_id,
+        })
+
+        refundResult = response.refund;
+      } catch (sqErr) {
+        console.error("[Square Error]", sqErr)
+        throw createError(
+            400,
+            sqErr.errors?.[0]?.detail ||
+            sqErr.message ||
+            "Refund processing failed.",
+        );
+      }
+
       // Simulating payment processing
       console.log(
         `[Refund] Initializing charge of $${refundAmountDollars} for User...`,
@@ -101,6 +132,7 @@ module.exports = class RefundService {
       const updatedRefund = await Refund.update({
         id: Refund.id,
         status: "COMPLETE",
+        reason: refundResult.reason,
       });
 
       const refundItemsData = itemsToRefund.map((item) => ({

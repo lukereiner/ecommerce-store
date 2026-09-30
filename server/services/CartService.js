@@ -255,6 +255,7 @@ module.exports = class CartService {
         const updatedOrder = await Order.update({
           id: Order.id,
           status: "COMPLETE",
+          square_payment_id: paymentResult.id,
         });
 
         const orderItemsData = cartItems.map((item) => ({

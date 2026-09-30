@@ -90,8 +90,6 @@ const RefundOrder = () => {
   const calculatedTax = taxCents / 100;
   const calculatedTotal = totalCents / 100;
 
-  console.log(refundQuantities)
-
   return (
     <div className="flex flex-col min-h-screen w-full bg-gray-50">
       <Navbar />

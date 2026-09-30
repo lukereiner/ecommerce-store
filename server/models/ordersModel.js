@@ -8,6 +8,7 @@ module.exports = class OrderModel {
     this.status = data.status || "PENDING";
     this.total = data.totalPrice || 0;
     this.userid = data.userId || null;
+    this.square_payment_id = data.paymentId || "PENDING";
   }
 
   addItems(items) {
@@ -126,6 +127,7 @@ module.exports = class OrderModel {
         o.total, 
         o.status, 
         o.userid,
+        o.square_payment_id,
         COALESCE(
           JSON_AGG(
             JSON_BUILD_OBJECT(
@@ -135,7 +137,8 @@ module.exports = class OrderModel {
               'id', oi.id,
               'name', p.name,
               'description', p.description,
-              'image_url', p.image_url
+              'image_url', p.image_url,
+              'square_payment_id', o.square_payment_id
             )
           ) FILTER (WHERE oi.id IS NOT NULL), '[]'
         ) AS items
@@ -156,7 +159,7 @@ module.exports = class OrderModel {
 
   async findByOrderId(id) {
     try {
-      const statement = 'SELECT * FROM orders WHERE id = $1';
+      const statement = "SELECT * FROM orders WHERE id = $1";
 
       const result = await db.query(statement, [id]);
 

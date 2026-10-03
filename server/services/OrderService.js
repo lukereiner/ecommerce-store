@@ -62,7 +62,7 @@ module.exports = class OrderService {
     const { id, passportId } = data;
 
     try {
-      const orderItems = await OrderModelInstance.findByOrderId(id);
+      const orderItems = await OrderModelInstance.findByOrderWithItems(id);
 
       if (!orderItems) {
         throw createError(404, "Order not found");

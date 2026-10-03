@@ -12,6 +12,7 @@ import ProtectedRoute from "./context/ProtectedRoute.jsx";
 import Order from "./components/orders/Order.jsx";
 import Product from "./components/store/Product.jsx";
 import RefundOrder from "./components/refunds/RefundOrder.jsx";
+import RefundDetail from "./components/refunds/RefundDetail.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -25,7 +26,8 @@ createRoot(document.getElementById("root")).render(
             <Route path="/cart" element={<Cart />} />
             <Route path="/members" element={<Members />}/>
             <Route path="/orders/:orderId" element={<Order />}/>
-            <Route path="/refunds/:orderId" element={<RefundOrder />}/>
+            <Route path="/refunds/:orderId/refund" element={<RefundOrder />}/>
+            <Route path="/refunds/:refundId" element={<RefundDetail />}/>
           </Route>
           <Route path="/store" element={<Store />} />
           <Route path="/products/:productId" element={<Product />}/>

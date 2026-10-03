@@ -38,9 +38,6 @@ module.exports = class RefundModel {
   async createRefund() {
     const { items, ...refund } = this;
 
-    console.log('refund model this: ', this);
-    
-
     try {
       const statement =
         pgp.helpers.insert(refund, null, "refunds") + " RETURNING *";
@@ -80,4 +77,57 @@ module.exports = class RefundModel {
       throw new Error(err);
     }
   }
+
+// Get refund by ID with aggregated items and product info
+async findByRefundId(id) {
+  try {
+    const statement = `
+      SELECT 
+        r.id,
+        r.order_id,
+        r.square_refund_id,
+        r.square_payment_id,
+        r.amount,
+        r.currency,
+        r.status,
+        r.reason,
+        r.created_at,
+        r.updated_at,
+        (
+          SELECT COALESCE(
+            JSON_AGG(
+              JSON_BUILD_OBJECT(
+                'id', ri.id,
+                'refund_id', ri.refund_id,
+                'order_item_id', ri.order_item_id,
+                'quantity', ri.quantity,
+                'amount', ri.amount,
+                'productid', oi.productid,
+                'name', p.name,
+                'price', p.price,
+                'description', p.description,
+                'image_url', p.image_url
+              )
+            ), '[]'
+          )
+          FROM refund_items ri
+          LEFT JOIN order_items oi ON ri.order_item_id = oi.id
+          LEFT JOIN products p ON oi.productid = p.id
+          WHERE ri.refund_id = r.id
+        ) AS items
+      FROM refunds r
+      WHERE r.id = $1;
+    `;
+
+    const result = await db.query(statement, [id]);
+
+    if (result.rows?.length) {
+      return result.rows[0];
+    }
+
+    return null;
+  } catch (err) {
+    throw new Error(err);
+  }
+}
 };

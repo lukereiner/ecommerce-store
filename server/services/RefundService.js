@@ -24,18 +24,16 @@ module.exports = class RefundService {
   }
 
   async refund(data) {
-    const { orderId, items } = data;
+    const { orderId, items, reason } = data;
 
     try {
-        // Fetch user ID for order to use for Square details
-        const getUserId = await OrderModelInstance.findByOrderId(orderId);
+      // Fetch user ID for order to use for Square details
+      const getUserId = await OrderModelInstance.findByOrderId(orderId);
 
       // 1. Fetch order details (handles array or single object return)
       const searchOrderResult = await OrderModelInstance.findByOrderWithItems(
         Number(orderId),
       );
-
-      console.log('searchOrderResult: ', searchOrderResult)
 
       const order = Array.isArray(searchOrderResult)
         ? searchOrderResult[0]
@@ -96,43 +94,34 @@ module.exports = class RefundService {
       let refundResult;
       try {
         const response = await squareClient.refunds.refundPayment({
-            idempotencyKey: randomUUID(),
-            amountMoney: {
-                amount: BigInt(totalCents),
-                currency: "USD",
-            },
-            reason: "Didn't want items",
-            //customerId: String(getUserId.userid),
-            paymentId: searchOrderResult.square_payment_id,
-        })
+          idempotencyKey: randomUUID(),
+          amountMoney: {
+            amount: BigInt(totalCents),
+            currency: "USD",
+          },
+          reason: reason,
+          //customerId: String(getUserId.userid),
+          paymentId: searchOrderResult.square_payment_id,
+        });
 
         refundResult = response.refund;
       } catch (sqErr) {
-        console.error("[Square Error]", sqErr)
+        console.error("[Square Error]", sqErr);
         throw createError(
-            400,
-            sqErr.errors?.[0]?.detail ||
+          400,
+          sqErr.errors?.[0]?.detail ||
             sqErr.message ||
             "Refund processing failed.",
         );
       }
 
-      // Simulating payment processing
-      console.log(
-        `[Refund] Initializing charge of $${refundAmountDollars} for User...`,
-      );
-
-      // 3 second delay
-      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-      await delay(2000);
-
-      // Complete simulation of payment processing
-      console.log(`[Refund] Charge successful via simulated gateway.`);
-
+      // Update refund after successful processing
       const updatedRefund = await Refund.update({
         id: Refund.id,
         status: "COMPLETE",
         reason: refundResult.reason,
+        square_refund_id: refundResult.id,
+        square_payment_id: refundResult.paymentId,
       });
 
       const refundItemsData = itemsToRefund.map((item) => ({
@@ -143,6 +132,20 @@ module.exports = class RefundService {
       }));
 
       await RefundItemModelInstance.create(refundItemsData);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getRefundById(id) {
+    try {
+      const refund = await RefundModelInstance.findByRefundId(id);
+
+      if (!refund) {
+        throw createError(404, "Refund not found");
+      }
+
+      return refund;
     } catch (err) {
       throw err;
     }

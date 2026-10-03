@@ -6,9 +6,6 @@ module.exports = class UserService {
   async get(data) {
     const { id, userId } = data;
 
-    console.log('userId: ', userId, 'id param: ', id);
-    
-
     try {
       const user = await UserModelInstance.findUserById(id);
 

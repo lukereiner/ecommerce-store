@@ -8,6 +8,7 @@ module.exports = class OrderModel {
     this.status = data.status || "PENDING";
     this.total = data.totalPrice || 0;
     this.userid = data.userId || null;
+    this.square_payment_id = data.paymentId || "PENDING";
   }
 
   addItems(items) {
@@ -117,16 +118,18 @@ module.exports = class OrderModel {
 
   // Find order by order ID with items
   async findByOrderWithItems(orderId) {
-    try {
-      const statement = `
-      SELECT 
-        o.id, 
-        o.created, 
-        o.modified, 
-        o.total, 
-        o.status, 
-        o.userid,
-        COALESCE(
+  try {
+    const statement = `
+    SELECT 
+      o.id, 
+      o.created, 
+      o.modified, 
+      o.total, 
+      o.status, 
+      o.userid,
+      o.square_payment_id,
+      (
+        SELECT COALESCE(
           JSON_AGG(
             JSON_BUILD_OBJECT(
               'productid', oi.productid,
@@ -135,28 +138,56 @@ module.exports = class OrderModel {
               'id', oi.id,
               'name', p.name,
               'description', p.description,
-              'image_url', p.image_url
+              'image_url', p.image_url,
+              'square_payment_id', o.square_payment_id
             )
-          ) FILTER (WHERE oi.id IS NOT NULL), '[]'
-        ) AS items
-      FROM orders o
-      LEFT JOIN order_items oi ON o.id = oi.orderid
-      LEFT JOIN products p ON oi.productid = p.id
-      WHERE o.id = $1
-      GROUP BY o.id
-      ORDER BY o.created DESC;
+          ), '[]'
+        )
+        FROM order_items oi
+        LEFT JOIN products p ON oi.productid = p.id
+        WHERE oi.orderid = o.id
+      ) AS items,
+      (
+        SELECT COALESCE(
+          JSON_AGG(
+            JSON_BUILD_OBJECT(
+              'id', r.id,
+              'amount', r.amount,
+              'status', r.status,
+              'created', r.created_at,
+              'items', (
+                SELECT COALESCE(
+                  JSON_AGG(
+                    JSON_BUILD_OBJECT(
+                      'itemId', ri.order_item_id,
+                      'quantity', ri.quantity,
+                      'amount', ri.amount
+                    )
+                  ), '[]'
+                )
+                FROM refund_items ri
+                WHERE ri.refund_id = r.id
+              )
+            )
+          ), '[]'
+        )
+        FROM refunds r
+        WHERE r.order_id = o.id
+      ) AS refunds
+    FROM orders o
+    WHERE o.id = $1;
     `;
 
-      const result = await db.query(statement, [orderId]);
-      return result.rows[0] || null;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const result = await db.query(statement, [orderId]);
+    return result.rows[0] || null;
+  } catch (err) {
+    throw new Error(err);
   }
+}
 
   async findByOrderId(id) {
     try {
-      const statement = 'SELECT * FROM orders WHERE id = $1';
+      const statement = "SELECT * FROM orders WHERE id = $1";
 
       const result = await db.query(statement, [id]);
 

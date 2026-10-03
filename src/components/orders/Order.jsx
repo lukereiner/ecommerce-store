@@ -139,7 +139,7 @@ const Order = () => {
           )}
         </div>
 
-        {/* Clean Original Items Display */}
+        {/* Items Display */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
           <h2 className="text-lg font-bold text-gray-900 mb-4">Items Included</h2>
           <ul className="divide-y divide-gray-100">

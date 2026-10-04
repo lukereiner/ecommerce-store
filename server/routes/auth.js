@@ -3,9 +3,10 @@ const router = express.Router();
 const AuthService = require("../services/AuthService");
 const AuthServiceInstance = new AuthService();
 const passport = require("passport");
+const { rateLimiter } = require("../middleware/rateLimiters")
 
 module.exports = (app) => {
-  app.use("/auth", router);
+  app.use("/auth", rateLimiter, router);
 
   // Create a user
   router.post("/register", async (req, res, next) => {

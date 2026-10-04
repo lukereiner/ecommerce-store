@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const CartService = require("../services/CartService");
 const { checkAuthentication } = require("../middleware/auth")
-const { cartLimiter, checkoutLimiter } = require("../middleware/rateLimiters")
+const { rateLimiter, checkoutLimiter } = require("../middleware/rateLimiters")
 
 const CartServiceInstance = new CartService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/carts", cartLimiter, router);
+  app.use("/carts", rateLimiter, router);
 
   router.post("/user/:userId", async (req, res, next) => {
     try {

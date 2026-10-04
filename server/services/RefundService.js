@@ -9,8 +9,15 @@ const OrderModelInstance = new OrderModel();
 const RefundItemModelInstance = new RefundItemModel();
 
 module.exports = class RefundService {
-  async getAll() {
+  async getAll(passportId) {
     try {
+      if (passportId !== 19) {
+        throw createError(
+          403,
+          "Access denied: you are not the admin and cannot view all refunds",
+        );
+      }
+
       const refunds = await RefundModelInstance.allRefunds();
 
       if (!refunds) {
@@ -24,16 +31,20 @@ module.exports = class RefundService {
   }
 
   async refund(data) {
-    const { orderId, items, reason } = data;
+    const { orderId, items, reason, passportId } = data;
 
     try {
-      // Fetch user ID for order to use for Square details
-      const getUserId = await OrderModelInstance.findByOrderId(orderId);
-
       // 1. Fetch order details (handles array or single object return)
       const searchOrderResult = await OrderModelInstance.findByOrderWithItems(
         Number(orderId),
       );
+
+      if (searchOrderResult.userid !== passportId) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to submit a refund for this order.",
+        );
+      };
 
       const order = Array.isArray(searchOrderResult)
         ? searchOrderResult[0]
@@ -100,7 +111,6 @@ module.exports = class RefundService {
             currency: "USD",
           },
           reason: reason,
-          //customerId: String(getUserId.userid),
           paymentId: searchOrderResult.square_payment_id,
         });
 
@@ -137,9 +147,23 @@ module.exports = class RefundService {
     }
   }
 
-  async getRefundById(id) {
+  async getRefundById(data) {
+    const { refundId, passportId } = data;
     try {
-      const refund = await RefundModelInstance.findByRefundId(id);
+      const findRefundOrderId =
+        await RefundModelInstance.findByRefundId(refundId);
+      const findUserId = await OrderModelInstance.findByOrderWithItems(
+        findRefundOrderId.order_id,
+      );
+
+      if (findUserId.userid !== passportId) {
+        throw createError(
+          403,
+          "Access denied: You do not have permission to view this refund",
+        );
+      }
+
+      const refund = await RefundModelInstance.findByRefundId(refundId);
 
       if (!refund) {
         throw createError(404, "Refund not found");

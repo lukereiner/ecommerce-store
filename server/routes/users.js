@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const UserService = require("../services/UserService");
 const { checkAuthentication } = require("../middleware/auth")
+const { rateLimiter } = require("../middleware/rateLimiters")
 
 const UserServiceInstance = new UserService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/users", router);
+  app.use("/users", rateLimiter, router);
 
   router.get("/:id", checkAuthentication, async (req, res, next) => {
     try {

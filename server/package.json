@@ -1,7 +1,7 @@
 {
   "name": "ecommerce-api",
   "version": "1.0.0",
-  "description": "- Javascript - Git & GitHub - Command line - Express - PostgreSQL",
+  "description": "Javascript - Git & GitHub - Command line - Express - PostgreSQL",
   "main": "server.js",
   "dependencies": {
     "bcrypt": "^6.0.0",

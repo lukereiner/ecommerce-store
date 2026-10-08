@@ -54,7 +54,6 @@ module.exports = (app) => {
       const passportId = req.user.id;
       const data = { ...req.body, userId, passportId };
 
-      // Passing as a clean object
       const response = await CartServiceInstance.addItems(data);
 
       res.status(201).send(response);

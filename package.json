@@ -1,11 +1,12 @@
 {
   "name": "my-ecommerce-store",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm --prefix server install",
+    "start": "node server/server.js",
     "lint": "oxlint",
     "preview": "vite preview"
   },

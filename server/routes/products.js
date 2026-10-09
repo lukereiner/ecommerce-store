@@ -8,7 +8,7 @@ const ProductServiceInstance = new ProductService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/products", rateLimiter, router);
+  app.use("/api/products", rateLimiter, router);
 
   router.get("/", checkAuthentication, async (req, res, next) => {
     try {

@@ -8,7 +8,7 @@ const UserServiceInstance = new UserService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/users", rateLimiter, router);
+  app.use("/api/users", rateLimiter, router);
 
   router.get("/:id", checkAuthentication, async (req, res, next) => {
     try {

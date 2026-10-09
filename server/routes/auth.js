@@ -6,7 +6,7 @@ const passport = require("passport");
 const { rateLimiter } = require("../middleware/rateLimiters")
 
 module.exports = (app) => {
-  app.use("/auth", rateLimiter, router);
+  app.use("/api/auth", rateLimiter, router);
 
   // Create a user
   router.post("/register", async (req, res, next) => {

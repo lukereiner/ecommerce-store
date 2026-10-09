@@ -34,6 +34,8 @@ module.exports = async (app) => {
           "https://web.squarecdn.com",
           "https://connect.squareupsandbox.com",
           "https://connect.squareup.com",
+          "https://pci-connect.squareupsandbox.com",
+          "https://pci-connect.squareup.com",
         ],
         imgSrc: ["'self'", "data:", "blob:", "https:"],
       },

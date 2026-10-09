@@ -27,6 +27,9 @@ PostgreSQL
 INSERT INTO products (name, price, description)
 VALUES ('2026 Honda Pilot', 44000.00, 'Relability meets simplicity'), ('2023 Ford Focus', 17999.99, 'Efficiency for traveling'), ('1995 Pontiac Cruiser', 1999.99, 'The Ultimate Sunday Cruiser');
 
+INSERT INTO products (name, price, description)
+VALUES ('iPhone 18 Pro Max (2TB)', 4000.00, 'Expensive... but iPhone'), ('Block of Cheese', 9.99, 'Fresh from Irish goats'), ('NY Knicks 2026 Finals Hat', 39.99, 'The Brunson Burner');
+
 INSERT INTO cart_items (cartid, productid, qty)
 VALUES (14, 8, 1), (14, 9, 1), (14, 11, 3);
 

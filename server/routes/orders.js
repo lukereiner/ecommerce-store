@@ -8,7 +8,7 @@ const OrderServiceInstance = new OrderService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/orders", rateLimiter, router);
+  app.use("/api/orders", rateLimiter, router);
 
   router.get("/", checkAuthentication, async (req, res, next) => {
     try {

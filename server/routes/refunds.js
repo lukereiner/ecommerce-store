@@ -8,7 +8,7 @@ const RefundServiceInstance = new RefundService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/refunds", rateLimiter, router);
+  app.use("/api/refunds", rateLimiter, router);
 
   router.get("/", checkAuthentication, async (req, res, next) => {
     try {

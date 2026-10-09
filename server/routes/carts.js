@@ -8,7 +8,7 @@ const CartServiceInstance = new CartService();
 
 module.exports = (app) => {
   app.use(express.json());
-  app.use("/carts", rateLimiter, router);
+  app.use("/api/carts", rateLimiter, router);
 
   router.post("/user/:userId", async (req, res, next) => {
     try {

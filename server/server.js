@@ -8,14 +8,14 @@ const startServer = async() => {
 
     app.use(express.json());
 
-    const distPath = path.join(__dirname, '../dist');
+    await loaders(app);
+
+        const distPath = path.join(__dirname, '../dist');
     app.use(express.static(distPath));
     
     app.get('/*splat', (req, res) => {
         res.sendFile(path.join(distPath, 'index.html'))
     })
-
-    await loaders(app);
 
     app.listen(PORT, () => {
         console.log(`Server listening on PORT ${PORT}`);

@@ -4,5 +4,6 @@ CREATE TABLE orders (
     modified DATE,
     total DECIMAL,
     status VARCHAR(20),
-    userId INTEGER REFERENCES users(id)
+    userId INTEGER REFERENCES users(id),
+    square_payment_id VARCHAR(50)
 );

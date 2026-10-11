@@ -45,12 +45,16 @@
 </ul>
 
 <h4>Credit Card Information - Simulate Payments</h4>
-<p>
-#: 4111111111111111
-Exp Date: 12/30
-CVV: 123
-Zip: 90218
-</p>
+<dl>
+    <dt>Card Number</dt>
+    <dd>4111111111111111</dd>
+    <dt>Expiration Date</dt>
+    <dd>12/30</dd>
+    <dt>CVV</dt>
+    <dd>123</dd>
+    <dt>Zip Code</dt>
+    <dd>90218</dd>
+</dl>
 
 <h3>For Developers & Engineering Managers</h3>
 <ul>
@@ -182,11 +186,10 @@ VITE_SQUARE_APP_ID=sandbox
 
 <p>Run database migrations/scripts and start the API server:</p>
 
-<pre><code># Run database setup / migration scripts (if applicable)
-npm run db:setup
+<pre><code># Run database setup / migration scripts 001-009 in <code>/db</code> folder
 
 # Start development server
-npm run dev
+node --watch server.js
 </code></pre>
 
 <p>The Express API server will start at <code>http://localhost:3000</code>.</p>
@@ -197,9 +200,7 @@ npm run dev
 
 <p>In a separate terminal window, set up and run the React client:</p>
 
-<pre><code># Navigate into root directory
-
-# Install Node dependencies
+<pre><code># Navigate into root directory & Install Node dependencies
 npm install
 
 # Create frontend environment file

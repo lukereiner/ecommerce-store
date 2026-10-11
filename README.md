@@ -236,8 +236,7 @@ npm run dev
 ![Homepage](public/demo/image%20(5).png)
 ![Store](public/demo/image%20(6).png)
 ![Order History](public/demo/image%20(4).png)
-
-<img src="public/demo/image (3).png" alt="Cart" width="500">
-<img src="public/demo/image (2).png" alt="Order detail" width="250">
-<img src="public/demo/image (1).png" alt="Submit Refund" width="150">
-<img src="public/demo/image.png" alt="Refund detail" width="500">
+![Cart](public/demo/image%20(3).png)
+![Order Detail](public/demo/image%20(2).png)
+![Submit Refund](public/demo/image%20(1).png)
+![Refund Detail](public/demo/image.png)

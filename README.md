@@ -17,13 +17,11 @@
   <tr>
     <td align="center" width="50%">
       <h3>🖥️ Desktop Walkthrough</h3>
-      <img src="https://youtu.be/Fa_onVQ0_o8" alt="Desktop Demo" width="100%"/>
-      <p><em>Desktop demo video coming soon / linked here</em></p>
+      <a href="https://youtu.be/Fa_onVQ0_o8" target="_blank" rel="noopener noreferrer">Desktop Demo on YouTube</a>
     </td>
     <td align="center" width="50%">
       <h3>📱 Mobile Responsive Walkthrough</h3>
-      <img src="https://youtu.be/TUr_WsKLrp8" alt="Mobile Demo" width="100%"/>
-      <p><em>Mobile demo video coming soon / linked here</em></p>
+      <a href="https://youtu.be/TUr_WsKLrp8" target="_blank" rel="noopener noreferrer">Mobile Demo on YouTube</a>
     </td>
   </tr>
 </table>

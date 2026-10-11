@@ -20,7 +20,7 @@
       <a href="https://youtu.be/Fa_onVQ0_o8" target="_blank" rel="noopener noreferrer">Desktop Demo on YouTube</a>
     </td>
     <td align="center" width="50%">
-      <h3>📱 Mobile Responsive Walkthrough</h3>
+      <h3>📱 Mobile Walkthrough</h3>
       <a href="https://youtu.be/TUr_WsKLrp8" target="_blank" rel="noopener noreferrer">Mobile Demo on YouTube</a>
     </td>
   </tr>

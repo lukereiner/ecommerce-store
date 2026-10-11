@@ -1,8 +1,8 @@
 const rateLimit = require("express-rate-limit");
 
 const rateLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15mins
-    max: 10000, // Limit each IP to 100 reqs per window
+    windowMs: 15 * 60 * 1000, // 15 mins
+    max: 250, // Limit each IP to 250 reqs per window
     message: "Too many requests. Please try again later.",
     standardHeaders: true,
     legacyHeaders: false,
@@ -10,7 +10,7 @@ const rateLimiter = rateLimit({
 
 const checkoutLimiter = rateLimit({
     windowMs: 60 * 60 * 1000, // one hour
-    max: 500, // 5 reqs per hour
+    max: 10, // 10 reqs per hour
     message: "Too many requests. Please try again later.",
 });
 

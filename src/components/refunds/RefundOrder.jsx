@@ -133,26 +133,33 @@ const RefundOrder = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-5 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-100 text-sm">
-            <div className="text-left">
-              <span className="block text-gray-500 text-xs">Return Items</span>
-              <span className="font-semibold text-gray-900">{totalReturnItemsCount}</span>
-            </div>
+           <div className="grid grid-cols-4 gap-4 place-items-center bg-gray-50 p-4 rounded-lg border border-gray-100 text-sm">
             <div className="text-center">
-              <span className="block text-gray-500 text-xs">Return Qty</span>
-              <span className="font-semibold text-gray-900">{totalReturnQty}</span>
+              <span className="block text-gray-500 text-xs">Qty</span>
+              <span className="font-semibold text-gray-900 tabular-nums">
+                {totalReturnQty}
+              </span>
             </div>
+
             <div className="text-center">
               <span className="block text-gray-500 text-xs">Subtotal</span>
-              <span className="font-semibold text-gray-900">${formatPrice(calculatedSubtotal)}</span>
+              <span className="font-semibold text-gray-900 tabular-nums">
+                ${formatPrice(calculatedSubtotal)}
+              </span>
             </div>
+
             <div className="text-center">
               <span className="block text-gray-500 text-xs">Tax</span>
-              <span className="font-semibold text-gray-900">${formatPrice(calculatedTax)}</span>
+              <span className="font-semibold text-gray-900 tabular-nums">
+                ${formatPrice(calculatedTax)}
+              </span>
             </div>
-            <div className="text-right">
-              <span className="block text-gray-500 text-xs">Total Refund</span>
-              <span className="font-bold text-gray-900">${formatPrice(calculatedTotal)}</span>
+
+            <div className="text-center">
+              <span className="block text-gray-500 text-xs">Total</span>
+              <span className="font-bold text-gray-900 tabular-nums">
+                ${formatPrice(calculatedTotal)}
+              </span>
             </div>
           </div>
         </div>

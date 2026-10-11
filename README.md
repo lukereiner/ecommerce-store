@@ -229,3 +229,10 @@ npm run dev
   <li><strong>Password Hashing:</strong> User passwords are encrypted using strong salted hashing before storage in PostgreSQL.</li>
   <li><strong>Tokenized Transactions:</strong> Payment information is never processed as plain text on the application server; raw credentials are converted into single-use tokens directly by Square's client SDK.</li>
 </ul>
+
+---
+<h2>Screenshots</h2>
+
+![Homepage](public/demo/image%20(5).png)
+![Store](public/demo/image%20(6).png)
+![Order History](public/demo/image%20(4).png)

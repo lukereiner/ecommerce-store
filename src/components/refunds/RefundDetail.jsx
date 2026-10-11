@@ -57,11 +57,14 @@ const RefundDetail = () => {
     );
   }
 
-  const formattedDate = refund.created_at && !isNaN(new Date(refund.created_at))
-    ? new Date(refund.created_at).toLocaleDateString()
-    : "N/A";
+  const formattedDate =
+    refund.created_at && !isNaN(new Date(refund.created_at))
+      ? new Date(refund.created_at).toLocaleDateString()
+      : "N/A";
 
-  const totalItemsCount = refund.items?.reduce((sum, item) => sum + Number(item.quantity || 0), 0) || 0;
+  const totalItemsCount =
+    refund.items?.reduce((sum, item) => sum + Number(item.quantity || 0), 0) ||
+    0;
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-gray-50">
@@ -78,9 +81,12 @@ const RefundDetail = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8 space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-100 pb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Refund #{refund.id}</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Refund #{refund.id}
+              </h1>
               <p className="text-sm text-gray-500 mt-1">
-                Associated Order: <strong className="text-gray-900">#{refund.order_id}</strong>
+                Associated Order:{" "}
+                <strong className="text-gray-900">#{refund.order_id}</strong>
               </p>
             </div>
             <span
@@ -94,18 +100,33 @@ const RefundDetail = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 bg-gray-50 p-4 rounded-lg border border-gray-100 text-sm">
-            <div className="text-left">
-              <span className="block text-gray-500 text-xs">Date Processed</span>
-              <span className="font-semibold text-gray-900">{formattedDate}</span>
+          <div className="grid grid-cols-3 items-start gap-2 sm:gap-4 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-100 text-sm">
+            {/* Date Processed */}
+            <div className="min-w-0 text-left">
+              <span className="block text-gray-500 text-xs leading-4 min-h-4">
+                Date Processed
+              </span>
+              <span className="block font-semibold text-gray-900 whitespace-nowrap">
+                {formattedDate}
+              </span>
             </div>
-            <div className="text-center">
-              <span className="block text-gray-500 text-xs">Items Returned</span>
-              <span className="font-semibold text-gray-900">{totalItemsCount}</span>
+
+            {/* Items Returned */}
+            <div className="min-w-0 text-center">
+              <span className="block text-gray-500 text-xs leading-4 min-h-4">
+                Items Returned
+              </span>
+              <span className="block font-semibold text-gray-900 whitespace-nowrap">
+                {totalItemsCount}
+              </span>
             </div>
-            <div className="text-right">
-              <span className="block text-gray-500 text-xs">Total Amount</span>
-              <span className="font-bold text-green-700 text-base">
+
+            {/* Total Amount */}
+            <div className="min-w-0 text-right">
+              <span className="block text-gray-500 text-xs leading-4 min-h-4">
+                Total Amount
+              </span>
+              <span className="block font-bold text-green-700 text-sm sm:text-base whitespace-nowrap">
                 -${formatPrice(refund.amount)}
               </span>
             </div>
@@ -120,17 +141,21 @@ const RefundDetail = () => {
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Refunded Items</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-4">
+            Refunded Items
+          </h2>
           {refund.items && refund.items.length > 0 ? (
             <ul className="divide-y divide-gray-100">
               {refund.items.map((item) => (
-                <li key={item.id} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
+                <li
+                  key={item.id}
+                  className="py-4 first:pt-0 last:pb-0 flex items-center justify-between gap-4"
+                >
                   <div className="flex items-center gap-4">
-
                     <div className="space-y-1">
                       <Link
                         to={`/products/${item.productid}`}
-                        state={{ product: item, item}}
+                        state={{ product: item, item }}
                         className="font-semibold text-gray-900 hover:text-blue-600 transition-colors block"
                       >
                         {item.name || `Item #${item.order_item_id}`}
@@ -147,7 +172,9 @@ const RefundDetail = () => {
               ))}
             </ul>
           ) : (
-            <p className="text-sm text-gray-500">No item details found for this refund.</p>
+            <p className="text-sm text-gray-500">
+              No item details found for this refund.
+            </p>
           )}
         </div>
       </main>

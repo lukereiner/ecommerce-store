@@ -29,26 +29,27 @@ const CartItems = ({ item, product, onUpdateQty, onDeleteItem }) => {
         <p className="text-xs text-gray-500 font-medium">
           ${formatPrice(item.price)} each
         </p>
-      </div>
-
-      {/* 4. QUANTITY CONTROLLER */}
-      <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50 flex-shrink-0 overflow-hidden shadow-xs">
-        <button
-          className="px-2.5 py-1 text-sm hover:bg-gray-200 text-gray-600 transition-colors disabled:opacity-40"
-          onClick={() => onUpdateQty(item.id, item.qty - 1)}
-          disabled={item.qty <= 1}
-        >
-          -
-        </button>
-        <span className="px-2 py-1 text-xs sm:text-sm font-semibold text-gray-800 min-w-[20px] text-center">
-          {item.qty}
-        </span>
-        <button
-          className="px-2.5 py-1 text-sm hover:bg-gray-200 text-gray-600 transition-colors"
-          onClick={() => onUpdateQty(item.id, item.qty + 1)}
-        >
-          +
-        </button>
+        <div className="flex">
+          {/* 4. QUANTITY CONTROLLER */}
+          <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50 flex-shrink-0 overflow-hidden shadow-xs">
+            <button
+              className="px-2.5 py-1 text-sm hover:bg-gray-200 text-gray-600 transition-colors disabled:opacity-40"
+              onClick={() => onUpdateQty(item.id, item.qty - 1)}
+              disabled={item.qty <= 1}
+            >
+              -
+            </button>
+            <span className="px-2 py-1 text-xs sm:text-sm font-semibold text-gray-800 min-w-[20px] text-center">
+              {item.qty}
+            </span>
+            <button
+              className="px-2.5 py-1 text-sm hover:bg-gray-200 text-gray-600 transition-colors"
+              onClick={() => onUpdateQty(item.id, item.qty + 1)}
+            >
+              +
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* 5. PRICE CALCULATION */}

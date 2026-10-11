@@ -17,12 +17,12 @@
   <tr>
     <td align="center" width="50%">
       <h3>🖥️ Desktop Walkthrough</h3>
-      <!-- <img src="URL_TO_YOUR_DESKTOP_DEMO_GIF" alt="Desktop Demo" width="100%"/> -->
+      <img src="https://youtu.be/Fa_onVQ0_o8" alt="Desktop Demo" width="100%"/>
       <p><em>Desktop demo video coming soon / linked here</em></p>
     </td>
     <td align="center" width="50%">
       <h3>📱 Mobile Responsive Walkthrough</h3>
-      <!-- <img src="URL_TO_YOUR_MOBILE_DEMO_GIF" alt="Mobile Demo" width="100%"/> -->
+      <img src="https://youtu.be/TUr_WsKLrp8" alt="Mobile Demo" width="100%"/>
       <p><em>Mobile demo video coming soon / linked here</em></p>
     </td>
   </tr>
@@ -56,7 +56,7 @@
     <dd>90218</dd>
 </dl>
 
-<h3>For Developers & Engineering Managers</h3>
+<h3>For Developers</h3>
 <ul>
   <li><strong>Raw SQL Efficiency:</strong> Utilizes native PostgreSQL queries via <code>node-postgres</code> (<code>pg</code>) without an ORM layer for maximum query optimization and direct database control.</li>
   <li><strong>Session-Based Auth:</strong> Implements local authentication using <code>Passport.js</code>, <code>bcrypt</code> password hashing, and persistent cookie sessions.</li>

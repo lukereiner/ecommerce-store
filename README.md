@@ -11,11 +11,7 @@
 
 ---
 
-<h2>📱 Demos</h2>
-
-<p>
-  <em>(Replace placeholders below with your actual demo video/GIF URLs)</em>
-</p>
+<h2>🎬 Demos</h2>
 
 <table width="100%">
   <tr>
@@ -34,10 +30,10 @@
 
 ---
 
-<h2>📋 Executive Overview</h2>
+<h2>📋 Project Overview</h2>
 
 <p>
-  This application serves as a fully functional storefront platform featuring a modern client interface and an enterprise-level REST API architecture.
+  This application serves as a fully functional storefront platform featuring a modern client interface and a REST API architecture.
 </p>
 
 <h3>For General Users</h3>
@@ -47,6 +43,14 @@
   <li><strong>Cart Operations:</strong> Seamlessly add, update, and remove items from the shopping cart.</li>
   <li><strong>Secure Checkout:</strong> Complete purchases safely using integrated credit card processing powered by Square.</li>
 </ul>
+
+<h4>Credit Card Information - Simulate Payments</h4>
+<p>
+#: 4111111111111111
+Exp Date: 12/30
+CVV: 123
+Zip: 90218
+</p>
 
 <h3>For Developers & Engineering Managers</h3>
 <ul>
@@ -153,13 +157,27 @@ cp .env.example .env
 
 <p>Configure your <code>.env</code> file with the appropriate credentials:</p>
 
-<pre><code>PORT=3000
+<pre><code>
+# SERVER
+PORT=3000
+# For local development
+CLIENT_URL=http://localhost:5173
+# Deployment in Render
 DATABASE_URL=postgres://postgres:yourpassword@localhost:5432/ecommerce_db
+
+# DATABASE
+PGHOST='localhost'
+PGUSER='api'
+PGDATABASE='api'
+PGPASSWORD='api'
+PGPORT=5432
+
 SESSION_SECRET=your_secure_random_session_secret
 
+# Square Developer Variables
 SQUARE_ACCESS_TOKEN=your_square_access_token
-SQUARE_LOCATION_ID=your_square_location_id
-SQUARE_ENVIRONMENT=sandbox
+VITE_SQUARE_LOCATION_ID=your_square_location_id
+VITE_SQUARE_APP_ID=sandbox
 </code></pre>
 
 <p>Run database migrations/scripts and start the API server:</p>
@@ -179,8 +197,7 @@ npm run dev
 
 <p>In a separate terminal window, set up and run the React client:</p>
 
-<pre><code># Navigate into client directory
-cd client
+<pre><code># Navigate into root directory
 
 # Install Node dependencies
 npm install

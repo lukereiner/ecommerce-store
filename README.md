@@ -1,4 +1,4 @@
-<h1>🛒 Full-Stack E-Commerce Platform</h1>
+<h1>🛒 Full-Stack E-Commerce Store</h1>
 
 <p>
   A production-grade, end-to-end e-commerce web application built using the <strong>PERN stack</strong> (PostgreSQL, Express, React, Node.js). 

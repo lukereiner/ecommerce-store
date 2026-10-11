@@ -256,7 +256,7 @@ const RefundOrder = () => {
           <button
             onClick={handleRefund}
             disabled={isSubmitting || totalReturnItemsCount === 0}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-md bg-green-600 text-sm font-medium text-white hover:bg-green-700 transition-colors shadow-sm focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="sm:w-auto px-6 py-2.5 rounded-md bg-green-600 text-sm font-medium text-white hover:bg-green-700 transition-colors shadow-sm focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <p className="font-bold">{isSubmitting ? "Processing..." : "Submit Refund"}</p>
           </button>
